@@ -455,7 +455,7 @@ namespace FlowTimer {
         }
 
         public static void Update(int buildNumber) {
-            RunUpdateCommand(string.Format("-update {0} {1} {2}", buildNumber, Assembly.GetExecutingAssembly().Location, Process.GetCurrentProcess().Id));
+            RunUpdateCommand(string.Format("-update {0} \"{1}\" {2}", buildNumber, Assembly.GetExecutingAssembly().Location, Process.GetCurrentProcess().Id));
         }
 
         public static int RunUpdateCommand(string args) {
