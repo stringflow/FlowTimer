@@ -202,10 +202,15 @@ namespace FlowTimer {
             timer.RadioButton.Checked = true;
 
             TimerInfo timerInfo = UpdatePCM();
+
+            List<Control> controls = new List<Control>() { MainForm.ButtonStart, MainForm.ButtonStop, };
+
             if(timerInfo != null) {
                 MainForm.LabelTimer.Text = (timerInfo.MaxOffset / 1000.0).ToFormattedString();
+                controls.ForEach(control => control.Enabled = true);
             } else {
                 MainForm.LabelTimer.Text = "Error";
+                controls.ForEach(control => control.Enabled = false);
             }
         }
 
