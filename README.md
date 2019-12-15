@@ -1,1 +1,1 @@
-Download: http://gunnermaniac.com/ft
+Download: https://gunnermaniac.com/ft
