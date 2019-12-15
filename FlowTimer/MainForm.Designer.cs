@@ -109,7 +109,7 @@
             this.ButtonSaveTimers.Size = new System.Drawing.Size(121, 25);
             this.ButtonSaveTimers.TabIndex = 32;
             this.ButtonSaveTimers.TabStop = false;
-            this.ButtonSaveTimers.Text = "SaveTimers";
+            this.ButtonSaveTimers.Text = "Save Timers";
             this.ButtonSaveTimers.UseVisualStyleBackColor = true;
             this.ButtonSaveTimers.Click += new System.EventHandler(this.ButtonSaveTimers_Click);
             // 
