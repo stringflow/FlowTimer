@@ -385,14 +385,14 @@ namespace FlowTimer {
 
         public static JsonTimerFile ReadTimers(string filePath) {
             var json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(filePath));
-            return json.GetType() == typeof(JArray) ? ReadJsonTimerLegacy((JArray) json) : ReadJsonTimerModern((JObject) json);
+            return json.GetType() == typeof(JArray) ? ReadJsonTimersLegacy((JArray) json) : ReadJsonTimersModern((JObject) json);
         }
 
-        private static JsonTimerFile ReadJsonTimerLegacy(JArray json) {
+        private static JsonTimerFile ReadJsonTimersLegacy(JArray json) {
             return new JsonTimerFile(new JsonTimersHeader(), json.ToObject<List<JsonTimer>>());
         }
 
-        private static JsonTimerFile ReadJsonTimerModern(JObject json) {
+        private static JsonTimerFile ReadJsonTimersModern(JObject json) {
             return json.ToObject<JsonTimerFile>();
         }
 
