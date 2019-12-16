@@ -32,5 +32,10 @@ namespace FlowTimer {
         public JsonTimerFile() { }
 
         public JsonTimerFile(JsonTimersHeader header, List<JsonTimer> timers) => (Header, Timers) = (header, timers);
+
+        public JsonTimer this[int i] {
+            get { return Timers[i]; }
+            set { Timers[i] = value; }
+        }
     }
 }

@@ -54,7 +54,12 @@ namespace FlowTimer {
             ChangeBeepSound(Settings.Beep, false);
 
             Timers = new List<Timer>();
-            AddTimer();
+
+            if(Settings.LastLoadedTimers != null && File.Exists(Settings.LastLoadedTimers)) {
+                LoadTimers(Settings.LastLoadedTimers, false);
+            } else {
+                AddTimer();
+            }
 
             TimerUpdateThread = new Thread(TimerUpdateCallback);
 
@@ -63,6 +68,12 @@ namespace FlowTimer {
         }
 
         public static void Destroy() {
+            if(HaveTimersChanged()) {
+                if(MessageBox.Show("You've changed your timers without saving. Would you like to save your timers?", "Save timers?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    SaveTimers(Settings.LastLoadedTimers, true);
+                }
+            }
+
             TimerUpdateThread.AbortIfAlive();
             AudioContext.DequeueAudio();
             AudioContext.Destroy();
@@ -372,10 +383,21 @@ namespace FlowTimer {
             }
         }
 
-        public static bool LoadTimers(string filePath, bool displayMessages = true) {
+        public static JsonTimerFile ReadTimers(string filePath) {
             var json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(filePath));
+            return json.GetType() == typeof(JArray) ? ReadJsonTimerLegacy((JArray) json) : ReadJsonTimerModern((JObject) json);
+        }
 
-            JsonTimerFile file = json.GetType() == typeof(JArray) ? LoadJsonTimerLegacy((JArray) json) : LoadJsonTimerModern((JObject) json);
+        private static JsonTimerFile ReadJsonTimerLegacy(JArray json) {
+            return new JsonTimerFile(new JsonTimersHeader(), json.ToObject<List<JsonTimer>>());
+        }
+
+        private static JsonTimerFile ReadJsonTimerModern(JObject json) {
+            return json.ToObject<JsonTimerFile>();
+        }
+
+        public static bool LoadTimers(string filePath, bool displayMessages = true) {
+            JsonTimerFile file = ReadTimers(filePath);
 
             if(file.Timers.Count == 0) {
                 if(displayMessages) {
@@ -386,7 +408,7 @@ namespace FlowTimer {
 
             ClearAllTimers();
             for(int i = 0; i < file.Timers.Count; i++) {
-                JsonTimer timer = file.Timers[i];
+                JsonTimer timer = file[i];
                 AddTimer(new Timer(i, timer.Name, timer.Offsets, timer.Interval, timer.NumBeeps));
             }
 
@@ -394,15 +416,8 @@ namespace FlowTimer {
                 MessageBox.Show("Timers successfully loaded from '" + filePath + "'.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
+            Settings.LastLoadedTimers = filePath;
             return true;
-        }
-
-        private static JsonTimerFile LoadJsonTimerLegacy(JArray json) {
-            return new JsonTimerFile(new JsonTimersHeader(), json.ToObject<List<JsonTimer>>());
-        }
-
-        private static JsonTimerFile LoadJsonTimerModern(JObject json) {
-            return json.ToObject<JsonTimerFile>();
         }
 
         public static void OpenSaveTimersDialog() {
@@ -414,19 +429,24 @@ namespace FlowTimer {
             }
         }
 
-        public static bool SaveTimers(string filePath, bool displayMessages = true) {
-            JsonTimerFile timerFile = new JsonTimerFile(new JsonTimersHeader(), Timers.ConvertAll(timer => new JsonTimer() {
+        public static JsonTimerFile BuildJsonTimerFile() {
+            return new JsonTimerFile(new JsonTimersHeader(), Timers.ConvertAll(timer => new JsonTimer() {
                 Name = timer.TextBoxName.Text,
                 Offsets = timer.TextBoxOffset.Text,
                 Interval = timer.TextBoxInterval.Text,
                 NumBeeps = timer.TextBoxNumBeeps.Text,
             }));
+        }
+
+        public static bool SaveTimers(string filePath, bool displayMessages = true) {
+            JsonTimerFile timerFile = BuildJsonTimerFile();
 
             try {
                 File.WriteAllText(filePath, JsonConvert.SerializeObject(timerFile));
                 if(displayMessages) {
                     MessageBox.Show("Timers successfully saved to '" + filePath + "'.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                Settings.LastLoadedTimers = filePath;
                 return true;
             } catch(Exception e) {
                 if(displayMessages) {
@@ -434,6 +454,36 @@ namespace FlowTimer {
                 }
                 return false;
             }
+        }
+
+        public static bool HaveTimersChanged() {
+            if(Settings.LastLoadedTimers == null) {
+                return false;
+            }
+
+            if(!File.Exists(Settings.LastLoadedTimers)) {
+                return false;
+            }
+
+            JsonTimerFile oldTimers = ReadTimers(Settings.LastLoadedTimers);
+            JsonTimerFile newTimers = BuildJsonTimerFile();
+
+            if(oldTimers.Timers.Count != newTimers.Timers.Count) {
+                return true;
+            }
+
+            for(int i = 0; i < oldTimers.Timers.Count; i++) {
+                JsonTimer timer1 = oldTimers[i];
+                JsonTimer timer2 = newTimers[i];
+                if(timer1.Name     != timer2.Name     ||
+                   timer1.Offsets  != timer2.Offsets  ||
+                   timer1.Interval != timer2.Interval ||
+                   timer1.NumBeeps != timer2.NumBeeps) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static void CheckForUpdates() {

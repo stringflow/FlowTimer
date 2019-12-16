@@ -13,6 +13,7 @@ namespace FlowTimer {
         public KeyMethod KeyMethod = KeyMethod.OnPress;
         public string Beep = "ping1";
         public bool Pinned = false;
+        public string LastLoadedTimers = null;
     }
 
     public class Hotkey {
