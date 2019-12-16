@@ -64,7 +64,7 @@ namespace Update {
 
         private static void Update(string build, string directory, string fileName, int processId = -1) {
             string download = URL + build + ".exe";
-            string src = directory + "\\new.exe";
+            string src = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\new.exe";
             string dest = directory + "\\" + fileName;
 
             if(processId != -1) {
