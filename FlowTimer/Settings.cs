@@ -14,6 +14,23 @@ namespace FlowTimer {
         public string Beep = "ping1";
         public bool Pinned = false;
         public string LastLoadedTimers = null;
+        public bool AutoUpdate = false;
+
+        [JsonIgnore]
+        private CheckBox _CheckBoxAutoUpdate;
+        [JsonIgnore]
+        public CheckBox CheckBoxAutoUpdate {
+            get { return _CheckBoxAutoUpdate; }
+            set {
+                _CheckBoxAutoUpdate = value;
+                _CheckBoxAutoUpdate.Checked = AutoUpdate;
+                _CheckBoxAutoUpdate.Click += CheckBoxAutoUpdate_CheckChanged;
+            }
+        }
+
+        private void CheckBoxAutoUpdate_CheckChanged(object sender, EventArgs args) {
+            AutoUpdate = _CheckBoxAutoUpdate.Checked;
+        }
     }
 
     public class Hotkey {
@@ -22,25 +39,25 @@ namespace FlowTimer {
         public Input Secondary;
 
         [JsonIgnore]
-        private Button _ClearButton;
+        private Button _ButtonClear;
         [JsonIgnore]
-        public Button ClearButton {
-            get { return _ClearButton; }
+        public Button ButtonClear {
+            get { return _ButtonClear; }
             set {
-                _ClearButton = value;
-                _ClearButton.Click += ClearButton_Click;
+                _ButtonClear = value;
+                _ButtonClear.Click += ButtonClear_Click;
             }
         }
 
         [JsonIgnore]
-        private CheckBox _GlobalCheckBox;
+        private CheckBox _CheckBoxGlobal;
         [JsonIgnore]
-        public CheckBox GlobalCheckBox {
-            get { return _GlobalCheckBox; }
+        public CheckBox CheckBoxGlobal {
+            get { return _CheckBoxGlobal; }
             set {
-                _GlobalCheckBox = value;
-                _GlobalCheckBox.Checked = Global;
-                _GlobalCheckBox.CheckedChanged += GlobalCheckBox_CheckChanged;
+                _CheckBoxGlobal = value;
+                _CheckBoxGlobal.Checked = Global;
+                _CheckBoxGlobal.CheckedChanged += CheckBoxGlobal_CheckChanged;
             }
         }
 
@@ -62,19 +79,19 @@ namespace FlowTimer {
         public void SetControls(Button primaryButton, Button secondaryButton, Button clearButton, CheckBox globalCheckBox) {
             Primary.Button = primaryButton;
             Secondary.Button = secondaryButton;
-            ClearButton = clearButton;
-            GlobalCheckBox = globalCheckBox;
+            ButtonClear = clearButton;
+            CheckBoxGlobal = globalCheckBox;
         }
 
         public bool IsPressed(Keys key) {
             return (Primary.Key == key || Secondary.Key == key) && (Form.ActiveForm == FlowTimer.MainForm || Global);
         }
 
-        private void GlobalCheckBox_CheckChanged(object sender, EventArgs args) {
-            Global = _GlobalCheckBox.Checked;
+        private void CheckBoxGlobal_CheckChanged(object sender, EventArgs args) {
+            Global = _CheckBoxGlobal.Checked;
         }
 
-        private void ClearButton_Click(object sender, EventArgs args) {
+        private void ButtonClear_Click(object sender, EventArgs args) {
             (Secondary.Key != Keys.None ? Secondary : Primary).Key = Keys.None;
         }
     }

@@ -77,7 +77,7 @@ namespace Update {
             }
 
             File.Delete(dest);
-            File.Move(src, dest);
+            File.Move(src, dest); 
 
             if(processId != -1) {
                 Process.Start(dest);

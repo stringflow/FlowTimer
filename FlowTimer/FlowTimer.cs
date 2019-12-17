@@ -47,6 +47,10 @@ namespace FlowTimer {
         public static void Init() {
             Settings = File.Exists(SettingsFile) ? JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile)) : new Settings();
 
+            if(Settings.AutoUpdate) {
+                CheckForUpdates(false);
+            }
+
             PinSheet = new SpriteSheet(new Bitmap(FileSystem.ReadPackedResourceStream("FlowTimer.Resources.pin.png")), 16, 16);
             Pin(Settings.Pinned);
 
@@ -383,21 +387,21 @@ namespace FlowTimer {
             }
         }
 
-        public static JsonTimerFile ReadTimers(string filePath) {
+        public static JsonTimersFile ReadTimers(string filePath) {
             var json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(filePath));
             return json.GetType() == typeof(JArray) ? ReadJsonTimersLegacy((JArray) json) : ReadJsonTimersModern((JObject) json);
         }
 
-        private static JsonTimerFile ReadJsonTimersLegacy(JArray json) {
-            return new JsonTimerFile(new JsonTimersHeader(), json.ToObject<List<JsonTimer>>());
+        private static JsonTimersFile ReadJsonTimersLegacy(JArray json) {
+            return new JsonTimersFile(new JsonTimersHeader(), json.ToObject<List<JsonTimer>>());
         }
 
-        private static JsonTimerFile ReadJsonTimersModern(JObject json) {
-            return json.ToObject<JsonTimerFile>();
+        private static JsonTimersFile ReadJsonTimersModern(JObject json) {
+            return json.ToObject<JsonTimersFile>();
         }
 
         public static bool LoadTimers(string filePath, bool displayMessages = true) {
-            JsonTimerFile file = ReadTimers(filePath);
+            JsonTimersFile file = ReadTimers(filePath);
 
             if(file.Timers.Count == 0) {
                 if(displayMessages) {
@@ -429,8 +433,8 @@ namespace FlowTimer {
             }
         }
 
-        public static JsonTimerFile BuildJsonTimerFile() {
-            return new JsonTimerFile(new JsonTimersHeader(), Timers.ConvertAll(timer => new JsonTimer() {
+        public static JsonTimersFile BuildJsonTimerFile() {
+            return new JsonTimersFile(new JsonTimersHeader(), Timers.ConvertAll(timer => new JsonTimer() {
                 Name = timer.TextBoxName.Text,
                 Offsets = timer.TextBoxOffset.Text,
                 Interval = timer.TextBoxInterval.Text,
@@ -439,7 +443,7 @@ namespace FlowTimer {
         }
 
         public static bool SaveTimers(string filePath, bool displayMessages = true) {
-            JsonTimerFile timerFile = BuildJsonTimerFile();
+            JsonTimersFile timerFile = BuildJsonTimerFile();
 
             try {
                 File.WriteAllText(filePath, JsonConvert.SerializeObject(timerFile));
@@ -465,8 +469,8 @@ namespace FlowTimer {
                 return false;
             }
 
-            JsonTimerFile oldTimers = ReadTimers(Settings.LastLoadedTimers);
-            JsonTimerFile newTimers = BuildJsonTimerFile();
+            JsonTimersFile oldTimers = ReadTimers(Settings.LastLoadedTimers);
+            JsonTimersFile newTimers = BuildJsonTimerFile();
 
             if(oldTimers.Timers.Count != newTimers.Timers.Count) {
                 return true;
@@ -486,18 +490,24 @@ namespace FlowTimer {
             return false;
         }
 
-        public static void CheckForUpdates() {
+        public static void CheckForUpdates(bool displayNoUpdateMessage = true) {
             int currentBuild = GetCurrentBuild();
             int latestBuild = GetLatestBuild();
 
             if(currentBuild >= latestBuild) {
-                MessageBox.Show("No new update found.", "No Update Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if(displayNoUpdateMessage) {
+                    MessageBox.Show("No new update found.", "No Update Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
                 return;
             } 
 
             if(MessageBox.Show("An update has been found!\nDo you wish to update to build " + latestBuild + " from build " + currentBuild + "?", "Update?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 Update(latestBuild);
             }
+        }
+
+        public static bool UpdateAvailable() {
+            return GetLatestBuild() > GetCurrentBuild();
         }
 
         public static int GetLatestBuild() {

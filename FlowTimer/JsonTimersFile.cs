@@ -13,6 +13,7 @@ namespace FlowTimer {
     public class JsonTimersHeader {
 
         public int Version = FlowTimer.GetCurrentBuild();
+        // future use (maybe)
     }
 
     public class JsonTimer {
@@ -23,15 +24,15 @@ namespace FlowTimer {
         public string NumBeeps;
     }
 
-    public class JsonTimerFile {
+    public class JsonTimersFile {
 
         public JsonTimersHeader Header;
         public List<JsonTimer> Timers;
 
         // Json Constructor
-        public JsonTimerFile() { }
+        public JsonTimersFile() { }
 
-        public JsonTimerFile(JsonTimersHeader header, List<JsonTimer> timers) => (Header, Timers) = (header, timers);
+        public JsonTimersFile(JsonTimersHeader header, List<JsonTimer> timers) => (Header, Timers) = (header, timers);
 
         public JsonTimer this[int i] {
             get { return Timers[i]; }

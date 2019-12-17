@@ -64,10 +64,12 @@ namespace FlowTimer {
                 samples = samples,
             };
 
-            DeviceId = SDL_OpenAudioDevice(null, 0, ref AudioSpec, out AudioSpec, (int) 0);
+            DeviceId = SDL_OpenAudioDevice(null, 0, ref AudioSpec, out AudioSpec, 0);
             if(DeviceId == 0) {
                 throw new Exception(SDL_GetError());
             }
+
+            Console.WriteLine("Opened Audio Device with the following parameters: freq={0}, format={1}, channels={2}, samples={3}", AudioSpec.freq, AudioSpec.format, AudioSpec.channels, AudioSpec.samples);
 
             SDL_PauseAudioDevice(DeviceId, 0);
         }

@@ -48,7 +48,8 @@
             this.ButtonImportBeep = new System.Windows.Forms.Button();
             this.ComboBoxKey = new System.Windows.Forms.ComboBox();
             this.LabelKey = new System.Windows.Forms.Label();
-            this.ButtonCheckForUpdates = new System.Windows.Forms.Button();
+            this.ButtonUpdate = new System.Windows.Forms.Button();
+            this.CheckBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // LabelStart
@@ -281,22 +282,34 @@
             this.LabelKey.TabIndex = 24;
             this.LabelKey.Text = "Key:";
             // 
-            // ButtonCheckForUpdates
+            // ButtonUpdate
             // 
-            this.ButtonCheckForUpdates.Location = new System.Drawing.Point(168, 139);
-            this.ButtonCheckForUpdates.Name = "ButtonCheckForUpdates";
-            this.ButtonCheckForUpdates.Size = new System.Drawing.Size(114, 23);
-            this.ButtonCheckForUpdates.TabIndex = 26;
-            this.ButtonCheckForUpdates.Text = "Check for Updates";
-            this.ButtonCheckForUpdates.UseVisualStyleBackColor = true;
-            this.ButtonCheckForUpdates.Click += new System.EventHandler(this.ButtonCheckForUpdates_Click);
+            this.ButtonUpdate.Enabled = false;
+            this.ButtonUpdate.Location = new System.Drawing.Point(51, 165);
+            this.ButtonUpdate.Name = "ButtonUpdate";
+            this.ButtonUpdate.Size = new System.Drawing.Size(114, 23);
+            this.ButtonUpdate.TabIndex = 26;
+            this.ButtonUpdate.Text = "Checking...";
+            this.ButtonUpdate.UseVisualStyleBackColor = true;
+            this.ButtonUpdate.Click += new System.EventHandler(this.ButtonCheckForUpdates_Click);
+            // 
+            // CheckBoxAutoUpdate
+            // 
+            this.CheckBoxAutoUpdate.AutoSize = true;
+            this.CheckBoxAutoUpdate.Location = new System.Drawing.Point(172, 169);
+            this.CheckBoxAutoUpdate.Name = "CheckBoxAutoUpdate";
+            this.CheckBoxAutoUpdate.Size = new System.Drawing.Size(107, 17);
+            this.CheckBoxAutoUpdate.TabIndex = 27;
+            this.CheckBoxAutoUpdate.Text = "Check on launch";
+            this.CheckBoxAutoUpdate.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 171);
-            this.Controls.Add(this.ButtonCheckForUpdates);
+            this.ClientSize = new System.Drawing.Size(354, 197);
+            this.Controls.Add(this.CheckBoxAutoUpdate);
+            this.Controls.Add(this.ButtonUpdate);
             this.Controls.Add(this.ComboBoxKey);
             this.Controls.Add(this.LabelKey);
             this.Controls.Add(this.ButtonImportBeep);
@@ -325,6 +338,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "SettingsForm";
             this.Text = "Settings";
+            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,6 +370,7 @@
         public System.Windows.Forms.Button ButtonImportBeep;
         public System.Windows.Forms.ComboBox ComboBoxKey;
         public System.Windows.Forms.Label LabelKey;
-        public System.Windows.Forms.Button ButtonCheckForUpdates;
+        public System.Windows.Forms.Button ButtonUpdate;
+        public System.Windows.Forms.CheckBox CheckBoxAutoUpdate;
     }
 }
