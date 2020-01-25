@@ -42,7 +42,10 @@ namespace FlowTimer {
         }
 
         public override void OnInit() {
-
+            ComboBoxFPS.SelectedItem = FlowTimer.Settings.VariableFPS;
+            TextBoxOffset.Text = FlowTimer.Settings.VariableOffset;
+            TextBoxInterval.Text = FlowTimer.Settings.VariableInterval;
+            TextBoxBeeps.Text = FlowTimer.Settings.VariableNumBeeps;
         }
 
         public override void OnLoad() {
@@ -92,7 +95,7 @@ namespace FlowTimer {
             GetVariableInfo(out Info);
             long now = DateTime.Now.Ticks;
             double offset = (Info.Frame / Info.FPS * 1000.0f) - ((now - FlowTimer.TimerStart) / 10000.0) + Info.Offset;
-            FlowTimer.UpdatePCM(new double[] { offset }, Info.Interval, Info.NumBeeps);
+            FlowTimer.UpdatePCM(new double[] { offset }, Info.Interval, Info.NumBeeps, false);
             FlowTimer.AudioContext.QueueAudio(FlowTimer.PCM);
             ButtonSubmit.Enabled = false;
             CurrentOffset = Info.Frame / Info.FPS + Info.Offset / 1000.0f;
@@ -139,7 +142,7 @@ namespace FlowTimer {
                 return TimerError.InvalidNumBeeps;
             }
 
-            if(info.Frame >= ushort.MaxValue << 12) {
+            if(info.Frame >= ushort.MaxValue << 8) {
                 return TimerError.InvalidFrame;
             }
 

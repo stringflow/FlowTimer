@@ -69,11 +69,6 @@ namespace FlowTimer {
             AudioContext.GlobalInit();
             ChangeBeepSound(Settings.Beep, false);
 
-            MainForm.ComboBoxFPS.SelectedItem = Settings.VariableFPS;
-            MainForm.TextBoxOffset.Text = Settings.VariableOffset;
-            MainForm.TextBoxInterval.Text = Settings.VariableInterval;
-            MainForm.TextBoxBeeps.Text = Settings.VariableNumBeeps;
-
             TimerUpdateThread = new Thread(TimerUpdateCallback);
 
             MainForm.TabControl.Selected += TabControl_Selected;
@@ -210,9 +205,9 @@ namespace FlowTimer {
             MainForm.PictureBoxPin.Image = PinSheet[pin ? 1 : 0];
         }
 
-        public static void UpdatePCM(double[] offsets, uint interval, uint numBeeps) {
+        public static void UpdatePCM(double[] offsets, uint interval, uint numBeeps, bool garbageCollect = true) {
             // try to force garbage collection on the old pcm data
-            GC.Collect();
+            if(garbageCollect) GC.Collect();
             MaxOffset = offsets.Max();
 
             PCM = new byte[((int) Math.Ceiling(MaxOffset / 1000.0 * AudioContext.SampleRate)) * AudioContext.NumChannels * 2 + BeepSound.Length * 2];
