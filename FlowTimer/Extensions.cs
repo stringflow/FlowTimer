@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
@@ -45,6 +42,10 @@ namespace FlowTimer {
             }
 
             throw new Exception("Unknown KeyMethod: " + Enum.GetName(typeof(KeyMethod), val));
+        }
+
+        public static void SetDrawing(this Control control, bool enabled) {
+            Win32.SendMessage(control.Handle, Win32.WM_SETREDRAW, enabled, 0);
         }
     }
 }

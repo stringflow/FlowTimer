@@ -105,8 +105,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioContext.cs" />
+    <Compile Include="BaseTimer.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FileSystem.cs" />
+    <Compile Include="TimerError.cs" />
+    <Compile Include="VariableOffsetTimer.cs" />
+    <Compile Include="FixedOffsetTimer.cs" />
     <Compile Include="FlowTimer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -131,7 +135,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="SDL.cs" />
     <Compile Include="SpriteSheet.cs" />
-    <Compile Include="Timer.cs" />
     <Compile Include="JsonTimersFile.cs" />
     <Compile Include="Win32.cs" />
     <EmbeddedResource Include="MainForm.resx">

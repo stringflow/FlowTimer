@@ -8,6 +8,7 @@ namespace FlowTimer {
         public MainForm() {
             InitializeComponent();
             FlowTimer.SetMainForm(this);
+            FlowTimer.RegisterTabs(TabPageFixedOffset, TabPageVariableOffset);
             FlowTimer.Init();
         }
 
@@ -16,7 +17,7 @@ namespace FlowTimer {
         }
 
         private void ButtonAdd_Click(object sender, EventArgs e) {
-            FlowTimer.AddTimer();
+            FlowTimer.FixedOffset.AddTimer();
         }
 
         private void ButtonStart_Click(object sender, EventArgs e) {
@@ -32,15 +33,23 @@ namespace FlowTimer {
         }
 
         private void ButtonLoadTimers_Click(object sender, EventArgs e) {
-            FlowTimer.OpenLoadTimersDialog();
+            FlowTimer.FixedOffset.OpenLoadTimersDialog();
         }
 
         private void ButtonSaveTimers_Click(object sender, EventArgs e) {
-            FlowTimer.OpenSaveTimersDialog();
+            FlowTimer.FixedOffset.OpenSaveTimersDialog();
         }
 
         private void PictureBoxPin_Click(object sender, EventArgs e) {
             FlowTimer.TogglePin();
+        }
+
+        private void ButtonSubmit_Click(object sender, EventArgs e) {
+            FlowTimer.VariableOffset.Submit();
+        }
+
+        private void VariableTimer_DataChange(object sender, EventArgs e) {
+            FlowTimer.VariableOffset.OnDataChange();
         }
     }
 }

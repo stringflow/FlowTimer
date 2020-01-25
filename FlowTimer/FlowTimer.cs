@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Media;
 using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
@@ -27,6 +27,15 @@ namespace FlowTimer {
         public static MainForm MainForm;
         public static int MainFormBaseHeight;
 
+        public static List<BaseTimer> TimerTabs;
+        public static FixedOffsetTimer FixedOffset;
+        public static VariableOffsetTimer VariableOffset;
+        public static BaseTimer CurrentTab {
+            get { return TimerTabs[MainForm.TabControl.SelectedIndex]; }
+        }
+
+        public static TabPage LockedTab;
+
         public static SettingsForm SettingsForm;
         public static Settings Settings;
 
@@ -35,16 +44,19 @@ namespace FlowTimer {
         public static AudioContext AudioContext;
         public static byte[] BeepSound;
         public static byte[] PCM;
+        public static double MaxOffset;
 
-        public static List<Timer> Timers;
-        public static Timer SelectedTimer;
-
+        public static bool IsTimerRunning;
+        public static long TimerStart;
         public static Thread TimerUpdateThread;
 
         public static Proc KeyboardCallback;
         public static IntPtr KeyboardHook;
 
         public static void Init() {
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
+
             Settings = File.Exists(SettingsFile) ? JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile)) : new Settings();
 
             if(Settings.AutoUpdate) {
@@ -57,24 +69,28 @@ namespace FlowTimer {
             AudioContext.GlobalInit();
             ChangeBeepSound(Settings.Beep, false);
 
-            Timers = new List<Timer>();
-
-            if(Settings.LastLoadedTimers != null && File.Exists(Settings.LastLoadedTimers)) {
-                LoadTimers(Settings.LastLoadedTimers, false);
-            } else {
-                AddTimer();
-            }
+            MainForm.ComboBoxFPS.SelectedItem = Settings.VariableFPS;
+            MainForm.TextBoxOffset.Text = Settings.VariableOffset;
+            MainForm.TextBoxInterval.Text = Settings.VariableInterval;
+            MainForm.TextBoxBeeps.Text = Settings.VariableNumBeeps;
 
             TimerUpdateThread = new Thread(TimerUpdateCallback);
 
+            MainForm.TabControl.Selected += TabControl_Selected;
+            MainForm.TabControl.Deselecting += TabControl_Deselecting;
+
             KeyboardCallback = Keycallback;
             KeyboardHook = SetHook(WH_KEYBOARD_LL, KeyboardCallback);
+
+            foreach(BaseTimer timer in TimerTabs) {
+                timer.OnInit();
+            }
         }
 
         public static void Destroy() {
-            if(HaveTimersChanged()) {
+            if(FixedOffset.HaveTimersChanged()) {
                 if(MessageBox.Show("You've changed your timers without saving. Would you like to save your timers?", "Save timers?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                    SaveTimers(Settings.LastLoadedTimers, true);
+                    FixedOffset.SaveTimers(Settings.LastLoadedTimers, true);
                 }
             }
 
@@ -92,8 +108,11 @@ namespace FlowTimer {
         public static void SetMainForm(MainForm mainForm) {
             MainForm = mainForm;
             MainFormBaseHeight = mainForm.Height;
+            mainForm.RemoveKeyControls();
+        }
 
-            foreach(Control ctrl in MainForm.Controls) {
+        public static void RemoveKeyControls(this Control control) {
+            foreach(Control ctrl in control.Controls) {
                 ctrl.PreviewKeyDown += MainForm_PreviewKeyDown;
                 ctrl.KeyDown += MainForm_KeyDownEvent;
             }
@@ -130,23 +149,45 @@ namespace FlowTimer {
                         StartTimer();
                     } else if(Settings.Stop.IsPressed(key)) {
                         StopTimer(false);
-                    } else if(Settings.Up.IsPressed(key)) {
-                        MoveSelectedTimerIndex(-1);
-                    } else if(Settings.Down.IsPressed(key)) {
-                        MoveSelectedTimerIndex(+1);
                     }
+
+                    CurrentTab.OnKeyEvent(key);
                 }
             }
 
             return CallNextHookEx(KeyboardHook, nCode, wParam, lParam);
         }
 
-        public static void RepositionAddButton() {
-            MainForm.ButtonAdd.SetBounds(Timer.X, Timer.Y + Timer.Size * Timers.Count - 2, MainForm.ButtonAdd.Bounds.Width, MainForm.ButtonAdd.Bounds.Height);
+        public static void RegisterTabs(TabPage fixedOffset, TabPage variableOffset) {
+            Control[] copyControls = { MainForm.ButtonStart, MainForm.ButtonStop, MainForm.ButtonSettings, MainForm.LabelTimer, MainForm.PictureBoxPin };
+            FixedOffset = new FixedOffsetTimer(fixedOffset, copyControls);
+            VariableOffset = new VariableOffsetTimer(variableOffset, copyControls);
+            TimerTabs = new List<BaseTimer>() { FixedOffset, VariableOffset };
+        }
 
+        public static void TabControl_Selected(object sender, TabControlEventArgs e) {
+            foreach(TabPage tab in MainForm.TabControl.TabPages) {
+                tab.SetDrawing(false);
+            }
+
+            TimerTabs[e.TabPageIndex].OnLoad();
+
+            e.TabPage.SetDrawing(true);
+            e.TabPage.Refresh();
+        }
+
+        public static void TabControl_Deselecting(object sender, TabControlCancelEventArgs e) {
+            if(e.TabPage == LockedTab) {
+                SystemSounds.Beep.Play();
+                e.Cancel = true;
+                return;
+            }
+        }
+
+        public static void ResizeForm(int width, int height) {
             Size size = new Size() {
-                Width = MainForm.Width,
-                Height = MainFormBaseHeight + Math.Max(Timers.Count - 5, 0) * Timer.Size,
+                Width = width,
+                Height = height,
             };
 
             MainForm.MinimumSize = size;
@@ -155,15 +196,7 @@ namespace FlowTimer {
         }
 
         public static void EnableControls(bool enabled) {
-            foreach(Timer timer in Timers) {
-                Control[] excluded = { timer.RadioButton, };
-                timer.Controls.Except(excluded).ToList().ForEach(control => control.Enabled = enabled);
-            }
-
-            MainForm.ButtonAdd.Enabled = enabled;
             MainForm.ButtonSettings.Enabled = enabled;
-            MainForm.ButtonLoadTimers.Enabled = enabled;
-            MainForm.ButtonSaveTimers.Enabled = enabled;
         }
 
         public static void TogglePin() {
@@ -177,91 +210,37 @@ namespace FlowTimer {
             MainForm.PictureBoxPin.Image = PinSheet[pin ? 1 : 0];
         }
 
-        public static void AddTimer() {
-            AddTimer(new Timer(Timers.Count));
-        }
+        public static void UpdatePCM(double[] offsets, uint interval, uint numBeeps) {
+            // try to force garbage collection on the old pcm data
+            GC.Collect();
+            MaxOffset = offsets.Max();
 
-        public static void AddTimer(Timer timer) {
-            Timers.Add(timer);
+            PCM = new byte[((int) Math.Ceiling(MaxOffset / 1000.0 * AudioContext.SampleRate)) * AudioContext.NumChannels * 2 + BeepSound.Length * 2];
 
-            foreach(Control control in timer.Controls) {
-                MainForm.Controls.Add(control);
-                control.KeyDown += MainForm_KeyDownEvent;
-            }
-
-            RepositionAddButton();
-            SelectTimer(timer);
-        }
-
-        public static void RemoveTimer(Timer timer) {
-            int timerIndex = Timers.IndexOf(timer);
-            timer.Controls.ForEach(MainForm.Controls.Remove);
-            Timers.Remove(timer);
-            for(int i = timerIndex; i < Timers.Count; i++) {
-                Timers[i].Index = Timers[i].Index - 1;
-            }
-            RepositionAddButton();
-            SelectTimer(Timers[0]);
-        }
-
-        public static void ClearAllTimers() {
-            for(int i = 0; i < Timers.Count; i++) {
-                Timers[i].Controls.ForEach(MainForm.Controls.Remove);
-            }
-            Timers.Clear();
-            RepositionAddButton();
-        }
-
-        public static void SelectTimer(Timer timer) {
-            SelectedTimer = timer;
-            timer.RadioButton.Checked = true;
-
-            TimerInfo timerInfo = UpdatePCM();
-
-            List<Control> controls = new List<Control>() { MainForm.ButtonStart, MainForm.ButtonStop, };
-
-            if(timerInfo != null) {
-                MainForm.LabelTimer.Text = (timerInfo.MaxOffset / 1000.0).ToFormattedString();
-                controls.ForEach(control => control.Enabled = true);
-            } else {
-                MainForm.LabelTimer.Text = "Error";
-                controls.ForEach(control => control.Enabled = false);
-            }
-        }
-
-        public static TimerInfo UpdatePCM() {
-            TimerInfo timerInfo;
-            TimerError error = SelectedTimer.GetTimerInfo(out timerInfo);
-
-            if(error == TimerError.NoError) {
-                // try to force garbage collection on the old pcm data
-                GC.Collect();
-
-                PCM = new byte[((int) Math.Ceiling(timerInfo.MaxOffset / 1000.0 * AudioContext.SampleRate)) * AudioContext.NumChannels * 2 + BeepSound.Length];
-
-                foreach(uint offset in timerInfo.Offsets) {
-                    for(int i = 0; i < timerInfo.NumBeeps; i++) {
-                        int destOffset = (int) ((offset - i * timerInfo.Interval) / 1000.0 * AudioContext.SampleRate) * AudioContext.NumChannels * 2;
-                        Array.Copy(BeepSound, 0, PCM, destOffset, BeepSound.Length);
-                    }
+            foreach(double offset in offsets) {
+                for(int i = 0; i < numBeeps; i++) {
+                    int destOffset = (int) ((offset - i * interval) / 1000.0 * AudioContext.SampleRate) * AudioContext.NumChannels * 2;
+                    Array.Copy(BeepSound, 0, PCM, destOffset, BeepSound.Length);
                 }
-
-                return timerInfo;
             }
-
-            return null;
         }
 
         public static void StartTimer() {
             AudioContext.DequeueAudio();
-            AudioContext.QueueAudio(PCM);
+
+            IsTimerRunning = true;
+            TimerStart = DateTime.Now.Ticks;
+            CurrentTab.OnTimerStart();
 
             if(!MainForm.ButtonStart.Enabled) {
                 AudioContext.DequeueAudio();
                 return;
             }
 
+            VariableOffset.OnDataChange();
+
             EnableControls(false);
+            LockedTab = MainForm.TabControl.SelectedTab;
 
             TimerUpdateThread.AbortIfAlive();
             TimerUpdateThread = new Thread(TimerUpdateCallback);
@@ -274,24 +253,24 @@ namespace FlowTimer {
                 TimerUpdateThread.AbortIfAlive();
             }
 
+            CurrentTab.OnTimerStop();
             EnableControls(true);
-            SelectTimer(SelectedTimer);
+            LockedTab = null;
+            IsTimerRunning = false;
+            VariableOffset.OnDataChange();
         }
 
         private static void TimerUpdateCallback() {
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+            Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
             const uint resolution = 15;
 
-            TimerInfo timerInfo;
-            SelectedTimer.GetTimerInfo(out timerInfo);
-
             MethodInvoker inv;
-            uint startTime = SDL_GetTicks();
-            double currentTime;
+            double currentTime = 0.0f;
 
             do {
-                currentTime = Math.Max((timerInfo.MaxOffset - ((long) (SDL_GetTicks() - startTime))) / 1000.0, 0.0);
-
                 inv = delegate {
+                    currentTime = CurrentTab.TimerCallback(TimerStart);
                     MainForm.LabelTimer.Text = currentTime.ToFormattedString();
                 };
                 MainForm.Invoke(inv);
@@ -355,8 +334,7 @@ namespace FlowTimer {
             AudioContext.LoadWAV(Beeps + beepName + ".wav", out BeepSound, out audioSpec);
             AudioContext = new AudioContext(audioSpec.freq, audioSpec.format, audioSpec.channels, 256);
 
-            if(SelectedTimer != null) UpdatePCM();
-
+            CurrentTab.OnBeepSoundChange();
             Settings.Beep = beepName;
 
             if(playSound) {
@@ -368,128 +346,6 @@ namespace FlowTimer {
             Settings.KeyMethod = newMethod;
         }
 
-        public static void MoveSelectedTimerIndex(int amount) {
-            if(SelectedTimer == null || Timers.Count == 0) {
-                return;
-            }
-
-            int selectedTimerIndex = Timers.IndexOf(SelectedTimer);
-            selectedTimerIndex = (((selectedTimerIndex + amount) % Timers.Count) + Timers.Count) % Timers.Count;
-            SelectTimer(Timers[selectedTimerIndex]);
-        }
-
-        public static void OpenLoadTimersDialog() {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = TimerFileFilter;
-
-            if(dialog.ShowDialog() == DialogResult.OK) {
-                LoadTimers(dialog.FileName, true);
-            }
-        }
-
-        public static JsonTimersFile ReadTimers(string filePath) {
-            var json = JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(filePath));
-            return json.GetType() == typeof(JArray) ? ReadJsonTimersLegacy((JArray) json) : ReadJsonTimersModern((JObject) json);
-        }
-
-        private static JsonTimersFile ReadJsonTimersLegacy(JArray json) {
-            return new JsonTimersFile(new JsonTimersHeader(), json.ToObject<List<JsonTimer>>());
-        }
-
-        private static JsonTimersFile ReadJsonTimersModern(JObject json) {
-            return json.ToObject<JsonTimersFile>();
-        }
-
-        public static bool LoadTimers(string filePath, bool displayMessages = true) {
-            JsonTimersFile file = ReadTimers(filePath);
-
-            if(file.Timers.Count == 0) {
-                if(displayMessages) {
-                    MessageBox.Show("Timers could not be loaded.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                return false;
-            }
-
-            ClearAllTimers();
-            for(int i = 0; i < file.Timers.Count; i++) {
-                JsonTimer timer = file[i];
-                AddTimer(new Timer(i, timer.Name, timer.Offsets, timer.Interval, timer.NumBeeps));
-            }
-
-            if(displayMessages) {
-                MessageBox.Show("Timers successfully loaded from '" + filePath + "'.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-            Settings.LastLoadedTimers = filePath;
-            return true;
-        }
-
-        public static void OpenSaveTimersDialog() {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = TimerFileFilter;
-
-            if(dialog.ShowDialog() == DialogResult.OK) {
-                SaveTimers(dialog.FileName, true);
-            }
-        }
-
-        public static JsonTimersFile BuildJsonTimerFile() {
-            return new JsonTimersFile(new JsonTimersHeader(), Timers.ConvertAll(timer => new JsonTimer() {
-                Name = timer.TextBoxName.Text,
-                Offsets = timer.TextBoxOffset.Text,
-                Interval = timer.TextBoxInterval.Text,
-                NumBeeps = timer.TextBoxNumBeeps.Text,
-            }));
-        }
-
-        public static bool SaveTimers(string filePath, bool displayMessages = true) {
-            JsonTimersFile timerFile = BuildJsonTimerFile();
-
-            try {
-                File.WriteAllText(filePath, JsonConvert.SerializeObject(timerFile));
-                if(displayMessages) {
-                    MessageBox.Show("Timers successfully saved to '" + filePath + "'.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                Settings.LastLoadedTimers = filePath;
-                return true;
-            } catch(Exception e) {
-                if(displayMessages) {
-                    MessageBox.Show("Timers could not be saved. Exception: " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                return false;
-            }
-        }
-
-        public static bool HaveTimersChanged() {
-            if(Settings.LastLoadedTimers == null) {
-                return false;
-            }
-
-            if(!File.Exists(Settings.LastLoadedTimers)) {
-                return false;
-            }
-
-            JsonTimersFile oldTimers = ReadTimers(Settings.LastLoadedTimers);
-            JsonTimersFile newTimers = BuildJsonTimerFile();
-
-            if(oldTimers.Timers.Count != newTimers.Timers.Count) {
-                return true;
-            }
-
-            for(int i = 0; i < oldTimers.Timers.Count; i++) {
-                JsonTimer timer1 = oldTimers[i];
-                JsonTimer timer2 = newTimers[i];
-                if(timer1.Name     != timer2.Name     ||
-                   timer1.Offsets  != timer2.Offsets  ||
-                   timer1.Interval != timer2.Interval ||
-                   timer1.NumBeeps != timer2.NumBeeps) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public static void CheckForUpdates(bool displayNoUpdateMessage = true) {
             int currentBuild = GetCurrentBuild();
             int latestBuild = GetLatestBuild();
@@ -499,7 +355,7 @@ namespace FlowTimer {
                     MessageBox.Show("No new update found.", "No Update Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 return;
-            } 
+            }
 
             if(MessageBox.Show("An update has been found!\nDo you wish to update to build " + latestBuild + " from build " + currentBuild + "?", "Update?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                 Update(latestBuild);

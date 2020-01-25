@@ -78,6 +78,10 @@ namespace FlowTimer {
             SDL_CloseAudioDevice(DeviceId);
         }
 
+        public uint GetQueuedAudioSize() {
+            return SDL.SDL_GetQueuedAudioSize(DeviceId);
+        }
+
         public void QueueAudio(byte[] pcm) {
             fixed(byte* ptr = pcm) SDL_QueueAudio(DeviceId, ptr, (uint) pcm.Length);
         }

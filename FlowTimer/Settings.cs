@@ -31,6 +31,11 @@ namespace FlowTimer {
         private void CheckBoxAutoUpdate_CheckChanged(object sender, EventArgs args) {
             AutoUpdate = _CheckBoxAutoUpdate.Checked;
         }
+
+        public string VariableFPS = "59.7275";
+        public string VariableOffset = "0";
+        public string VariableInterval = "500";
+        public string VariableNumBeeps = "5";
     }
 
     public class Hotkey {
