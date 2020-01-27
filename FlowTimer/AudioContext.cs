@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using System.IO;
 using static FlowTimer.SDL;
 
 namespace FlowTimer {
@@ -78,15 +70,11 @@ namespace FlowTimer {
             SDL_CloseAudioDevice(DeviceId);
         }
 
-        public uint GetQueuedAudioSize() {
-            return SDL.SDL_GetQueuedAudioSize(DeviceId);
-        }
-
         public void QueueAudio(byte[] pcm) {
             fixed(byte* ptr = pcm) SDL_QueueAudio(DeviceId, ptr, (uint) pcm.Length);
         }
 
-        public void DequeueAudio() {
+        public void ClearQueuedAudio() {
             SDL_ClearQueuedAudio(DeviceId);
         }
     }

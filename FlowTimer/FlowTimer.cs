@@ -90,7 +90,7 @@ namespace FlowTimer {
             }
 
             TimerUpdateThread.AbortIfAlive();
-            AudioContext.DequeueAudio();
+            AudioContext.ClearQueuedAudio();
             AudioContext.Destroy();
             AudioContext.GlobalDestroy();
             File.WriteAllText(SettingsFile, JsonConvert.SerializeObject(Settings));
@@ -108,6 +108,7 @@ namespace FlowTimer {
 
         public static void RemoveKeyControls(this Control control) {
             foreach(Control ctrl in control.Controls) {
+                ctrl.RemoveKeyControls();
                 ctrl.PreviewKeyDown += MainForm_PreviewKeyDown;
                 ctrl.KeyDown += MainForm_KeyDownEvent;
             }
@@ -221,14 +222,14 @@ namespace FlowTimer {
         }
 
         public static void StartTimer() {
-            AudioContext.DequeueAudio();
+            AudioContext.ClearQueuedAudio();
 
             IsTimerRunning = true;
             TimerStart = DateTime.Now.Ticks;
             CurrentTab.OnTimerStart();
 
             if(!MainForm.ButtonStart.Enabled) {
-                AudioContext.DequeueAudio();
+                AudioContext.ClearQueuedAudio();
                 return;
             }
 
@@ -244,7 +245,7 @@ namespace FlowTimer {
 
         public static void StopTimer(bool timerExpired) {
             if(!timerExpired) {
-                AudioContext.DequeueAudio();
+                AudioContext.ClearQueuedAudio();
                 TimerUpdateThread.AbortIfAlive();
             }
 
@@ -282,6 +283,7 @@ namespace FlowTimer {
         public static void OpenSettingsForm() {
             SettingsForm = new SettingsForm();
             SettingsForm.TopMost = Settings.Pinned;
+            SettingsForm.RemoveKeyControls();
             SettingsForm.ShowDialog();
         }
 

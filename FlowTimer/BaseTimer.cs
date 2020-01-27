@@ -16,10 +16,10 @@ namespace FlowTimer {
         
         public BaseTimer(TabPage tab, TimerUpdateCallback timerCallback, params Control[] controlsToCopy) {
             Tab = tab;
+            Tab.SetDrawing(false);
+            Tab.RemoveKeyControls();
             TimerCallback = timerCallback;
-            tab.SetDrawing(false);
             ControlsToCopy = controlsToCopy;
-            tab.RemoveKeyControls();
         }
 
         public virtual void OnLoad() {

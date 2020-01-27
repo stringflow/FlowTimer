@@ -101,9 +101,6 @@ namespace FlowTimer {
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_ClearQueuedAudio(uint dev);
 
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_GetQueuedAudioSize(uint dev);
-
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, EntryPoint = "SDL_LoadWAV_RW")]
         private static extern IntPtr INTERNAL_SDL_LoadWAV_RW(IntPtr src, int freesrc, ref SDL_AudioSpec spec, out IntPtr audio_buf, out uint audio_len);
         public static SDL_AudioSpec SDL_LoadWAV(string file, ref SDL_AudioSpec spec, out IntPtr audio_buf, out uint audio_len) { return Marshal.PtrToStructure<SDL_AudioSpec>(INTERNAL_SDL_LoadWAV_RW(SDL_RWFromFile(file, "rb"), 1, ref spec, out audio_buf, out audio_len)); }
