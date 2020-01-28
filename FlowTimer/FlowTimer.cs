@@ -189,6 +189,7 @@ namespace FlowTimer {
             MainForm.MinimumSize = size;
             MainForm.MaximumSize = size;
             MainForm.Size = size;
+            MainForm.TabControl.Height = size.Height;
         }
 
         public static void EnableControls(bool enabled) {
