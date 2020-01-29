@@ -235,6 +235,7 @@
             this.ComboBoxFPS.FormattingEnabled = true;
             this.ComboBoxFPS.Items.AddRange(new object[] {
             "59.7275",
+            "59.6555",
             "59.8261",
             "60.0",
             "30.0",
