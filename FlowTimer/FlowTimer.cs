@@ -74,6 +74,13 @@ namespace FlowTimer {
             MainForm.TabControl.Selected += TabControl_Selected;
             MainForm.TabControl.Deselecting += TabControl_Deselecting;
 
+            MainForm.ButtonAdd.DisableSelect();
+            MainForm.ButtonStart.DisableSelect();
+            MainForm.ButtonStop.DisableSelect();
+            MainForm.ButtonSettings.DisableSelect();
+            MainForm.ButtonLoadTimers.DisableSelect();
+            MainForm.ButtonSaveTimers.DisableSelect();
+
             KeyboardCallback = Keycallback;
             KeyboardHook = SetHook(WH_KEYBOARD_LL, KeyboardCallback);
 

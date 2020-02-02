@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
+using System.Reflection;
 
 namespace FlowTimer {
 
@@ -46,6 +47,12 @@ namespace FlowTimer {
 
         public static void SetDrawing(this Control control, bool enabled) {
             Win32.SendMessage(control.Handle, Win32.WM_SETREDRAW, enabled, 0);
+        }
+
+        // credit to https://stackoverflow.com/a/32859334/7281499
+        private static readonly Action<Control, ControlStyles, bool> SetStyle = (Action<Control, ControlStyles, bool>) Delegate.CreateDelegate(typeof(Action<Control, ControlStyles, bool>), typeof(Control).GetMethod("SetStyle", BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(ControlStyles), typeof(bool) }, null));
+        public static void DisableSelect(this Control control) {
+            SetStyle(control, ControlStyles.Selectable, false);
         }
     }
 }

@@ -340,6 +340,7 @@ namespace FlowTimer {
                 RemoveButton.Text = "-";
                 RemoveButton.Click += RemoveButton_Click;
                 RemoveButton.TabStop = false;
+                RemoveButton.DisableSelect();
                 Controls.Add(RemoveButton);
             }
 
