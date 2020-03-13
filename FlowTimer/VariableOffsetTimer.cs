@@ -78,9 +78,12 @@ namespace FlowTimer {
         public override void OnBeepSoundChange() {
         }
 
-        public double TimerCallbackFn(long start) {
+        public override void OnBeepVolumeChange() {
+        }
+
+        public double TimerCallbackFn(double start) {
             OnDataChange();
-            double ret = Math.Min(Math.Max((DateTime.Now.Ticks - start) / 10000000.0, 0.001), CurrentOffset);
+            double ret = Math.Min(Math.Max((Win32.GetTime() - start) / 1000.0, 0.001), CurrentOffset);
             if(ret == CurrentOffset) ret = 0.0;
             return ret;
         }
@@ -93,8 +96,8 @@ namespace FlowTimer {
 
         public void Submit() {
             GetVariableInfo(out Info);
-            long now = DateTime.Now.Ticks;
-            double offset = (Info.Frame / Info.FPS * 1000.0f) - ((now - FlowTimer.TimerStart) / 10000.0) + Info.Offset;
+            double now = Win32.GetTime();
+            double offset = (Info.Frame / Info.FPS * 1000.0f) - (now - FlowTimer.TimerStart) + Info.Offset;
             FlowTimer.UpdatePCM(new double[] { offset }, Info.Interval, Info.NumBeeps, false);
             FlowTimer.AudioContext.QueueAudio(FlowTimer.PCM);
             ButtonSubmit.Enabled = false;

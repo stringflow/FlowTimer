@@ -4,7 +4,7 @@ namespace FlowTimer {
     
     public abstract class BaseTimer {
 
-        public delegate double TimerUpdateCallback(long startTime);
+        public delegate double TimerUpdateCallback(double startTime);
 
         public TabPage Tab;
         public TimerUpdateCallback TimerCallback;
@@ -33,5 +33,6 @@ namespace FlowTimer {
         public abstract void OnTimerStop();
         public abstract void OnKeyEvent(Keys key);
         public abstract void OnBeepSoundChange();
+        public abstract void OnBeepVolumeChange();
     }
 }

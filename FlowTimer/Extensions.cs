@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace FlowTimer {
 
@@ -53,6 +54,27 @@ namespace FlowTimer {
         private static readonly Action<Control, ControlStyles, bool> SetStyle = (Action<Control, ControlStyles, bool>) Delegate.CreateDelegate(typeof(Action<Control, ControlStyles, bool>), typeof(Control).GetMethod("SetStyle", BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(ControlStyles), typeof(bool) }, null));
         public static void DisableSelect(this Control control) {
             SetStyle(control, ControlStyles.Selectable, false);
+        }
+
+        public static T[] Subarray<T>(this T[] source, int index, int length) {
+            T[] subarray = new T[length];
+            Array.Copy(source, index, subarray, 0, length);
+            return subarray;
+        }
+
+        public static T Consume<T>(this byte[] array, ref int pointer) where T : unmanaged {
+            T ret = ReadStruct<T>(array, pointer);
+            pointer += Marshal.SizeOf<T>();
+            return ret;
+        }
+
+        public static T ReadStruct<T>(this byte[] array, int pointer) where T : unmanaged {
+            int structSize = Marshal.SizeOf<T>();
+            IntPtr ptr = Marshal.AllocHGlobal(structSize);
+            Marshal.Copy(array, pointer, ptr, structSize);
+            T str = Marshal.PtrToStructure<T>(ptr);
+            Marshal.FreeHGlobal(ptr);
+            return str;
         }
     }
 }

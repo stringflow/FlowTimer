@@ -50,12 +50,16 @@
             this.LabelKey = new System.Windows.Forms.Label();
             this.ButtonUpdate = new System.Windows.Forms.Button();
             this.CheckBoxAutoUpdate = new System.Windows.Forms.CheckBox();
+            this.TrackBarVolume = new System.Windows.Forms.TrackBar();
+            this.TextBoxVolume = new System.Windows.Forms.TextBox();
+            this.LabelVolume = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackBarVolume)).BeginInit();
             this.SuspendLayout();
             // 
             // LabelStart
             // 
             this.LabelStart.AutoSize = true;
-            this.LabelStart.Location = new System.Drawing.Point(13, 14);
+            this.LabelStart.Location = new System.Drawing.Point(5, 12);
             this.LabelStart.Name = "LabelStart";
             this.LabelStart.Size = new System.Drawing.Size(32, 13);
             this.LabelStart.TabIndex = 0;
@@ -63,7 +67,7 @@
             // 
             // ButtonStartPrimary
             // 
-            this.ButtonStartPrimary.Location = new System.Drawing.Point(51, 9);
+            this.ButtonStartPrimary.Location = new System.Drawing.Point(51, 7);
             this.ButtonStartPrimary.Name = "ButtonStartPrimary";
             this.ButtonStartPrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonStartPrimary.TabIndex = 1;
@@ -72,7 +76,7 @@
             // 
             // ButtonStartSecondary
             // 
-            this.ButtonStartSecondary.Location = new System.Drawing.Point(129, 9);
+            this.ButtonStartSecondary.Location = new System.Drawing.Point(129, 7);
             this.ButtonStartSecondary.Name = "ButtonStartSecondary";
             this.ButtonStartSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonStartSecondary.TabIndex = 2;
@@ -81,7 +85,7 @@
             // 
             // ButtonStartClear
             // 
-            this.ButtonStartClear.Location = new System.Drawing.Point(207, 9);
+            this.ButtonStartClear.Location = new System.Drawing.Point(207, 7);
             this.ButtonStartClear.Name = "ButtonStartClear";
             this.ButtonStartClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonStartClear.TabIndex = 3;
@@ -91,7 +95,7 @@
             // CheckBoxStartGlobal
             // 
             this.CheckBoxStartGlobal.AutoSize = true;
-            this.CheckBoxStartGlobal.Location = new System.Drawing.Point(289, 13);
+            this.CheckBoxStartGlobal.Location = new System.Drawing.Point(289, 11);
             this.CheckBoxStartGlobal.Name = "CheckBoxStartGlobal";
             this.CheckBoxStartGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxStartGlobal.TabIndex = 4;
@@ -101,7 +105,7 @@
             // CheckBoxStopGlobal
             // 
             this.CheckBoxStopGlobal.AutoSize = true;
-            this.CheckBoxStopGlobal.Location = new System.Drawing.Point(289, 39);
+            this.CheckBoxStopGlobal.Location = new System.Drawing.Point(289, 37);
             this.CheckBoxStopGlobal.Name = "CheckBoxStopGlobal";
             this.CheckBoxStopGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxStopGlobal.TabIndex = 9;
@@ -110,7 +114,7 @@
             // 
             // ButtonStopClear
             // 
-            this.ButtonStopClear.Location = new System.Drawing.Point(207, 35);
+            this.ButtonStopClear.Location = new System.Drawing.Point(207, 33);
             this.ButtonStopClear.Name = "ButtonStopClear";
             this.ButtonStopClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonStopClear.TabIndex = 8;
@@ -119,7 +123,7 @@
             // 
             // ButtonStopSecondary
             // 
-            this.ButtonStopSecondary.Location = new System.Drawing.Point(129, 35);
+            this.ButtonStopSecondary.Location = new System.Drawing.Point(129, 33);
             this.ButtonStopSecondary.Name = "ButtonStopSecondary";
             this.ButtonStopSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonStopSecondary.TabIndex = 7;
@@ -128,7 +132,7 @@
             // 
             // ButtonStopPrimary
             // 
-            this.ButtonStopPrimary.Location = new System.Drawing.Point(51, 35);
+            this.ButtonStopPrimary.Location = new System.Drawing.Point(51, 33);
             this.ButtonStopPrimary.Name = "ButtonStopPrimary";
             this.ButtonStopPrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonStopPrimary.TabIndex = 6;
@@ -138,7 +142,7 @@
             // LabelStop
             // 
             this.LabelStop.AutoSize = true;
-            this.LabelStop.Location = new System.Drawing.Point(13, 40);
+            this.LabelStop.Location = new System.Drawing.Point(5, 38);
             this.LabelStop.Name = "LabelStop";
             this.LabelStop.Size = new System.Drawing.Size(32, 13);
             this.LabelStop.TabIndex = 5;
@@ -147,7 +151,7 @@
             // CheckBoxUpGlobal
             // 
             this.CheckBoxUpGlobal.AutoSize = true;
-            this.CheckBoxUpGlobal.Location = new System.Drawing.Point(289, 65);
+            this.CheckBoxUpGlobal.Location = new System.Drawing.Point(289, 63);
             this.CheckBoxUpGlobal.Name = "CheckBoxUpGlobal";
             this.CheckBoxUpGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxUpGlobal.TabIndex = 14;
@@ -156,7 +160,7 @@
             // 
             // ButtonUpClear
             // 
-            this.ButtonUpClear.Location = new System.Drawing.Point(207, 61);
+            this.ButtonUpClear.Location = new System.Drawing.Point(207, 59);
             this.ButtonUpClear.Name = "ButtonUpClear";
             this.ButtonUpClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonUpClear.TabIndex = 13;
@@ -165,7 +169,7 @@
             // 
             // ButtonUpSecondary
             // 
-            this.ButtonUpSecondary.Location = new System.Drawing.Point(129, 61);
+            this.ButtonUpSecondary.Location = new System.Drawing.Point(129, 59);
             this.ButtonUpSecondary.Name = "ButtonUpSecondary";
             this.ButtonUpSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonUpSecondary.TabIndex = 12;
@@ -174,7 +178,7 @@
             // 
             // ButtonUpPrimary
             // 
-            this.ButtonUpPrimary.Location = new System.Drawing.Point(51, 61);
+            this.ButtonUpPrimary.Location = new System.Drawing.Point(51, 59);
             this.ButtonUpPrimary.Name = "ButtonUpPrimary";
             this.ButtonUpPrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonUpPrimary.TabIndex = 11;
@@ -184,7 +188,7 @@
             // LabelUp
             // 
             this.LabelUp.AutoSize = true;
-            this.LabelUp.Location = new System.Drawing.Point(13, 66);
+            this.LabelUp.Location = new System.Drawing.Point(5, 64);
             this.LabelUp.Name = "LabelUp";
             this.LabelUp.Size = new System.Drawing.Size(24, 13);
             this.LabelUp.TabIndex = 10;
@@ -193,7 +197,7 @@
             // CheckBoxDownGlobal
             // 
             this.CheckBoxDownGlobal.AutoSize = true;
-            this.CheckBoxDownGlobal.Location = new System.Drawing.Point(289, 91);
+            this.CheckBoxDownGlobal.Location = new System.Drawing.Point(289, 89);
             this.CheckBoxDownGlobal.Name = "CheckBoxDownGlobal";
             this.CheckBoxDownGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxDownGlobal.TabIndex = 19;
@@ -202,7 +206,7 @@
             // 
             // ButtonDownClear
             // 
-            this.ButtonDownClear.Location = new System.Drawing.Point(207, 87);
+            this.ButtonDownClear.Location = new System.Drawing.Point(207, 85);
             this.ButtonDownClear.Name = "ButtonDownClear";
             this.ButtonDownClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonDownClear.TabIndex = 18;
@@ -211,7 +215,7 @@
             // 
             // ButtonDownSecondary
             // 
-            this.ButtonDownSecondary.Location = new System.Drawing.Point(129, 87);
+            this.ButtonDownSecondary.Location = new System.Drawing.Point(129, 85);
             this.ButtonDownSecondary.Name = "ButtonDownSecondary";
             this.ButtonDownSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonDownSecondary.TabIndex = 17;
@@ -220,7 +224,7 @@
             // 
             // ButtonDownPrimary
             // 
-            this.ButtonDownPrimary.Location = new System.Drawing.Point(51, 87);
+            this.ButtonDownPrimary.Location = new System.Drawing.Point(51, 85);
             this.ButtonDownPrimary.Name = "ButtonDownPrimary";
             this.ButtonDownPrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonDownPrimary.TabIndex = 16;
@@ -230,7 +234,7 @@
             // LabelDown
             // 
             this.LabelDown.AutoSize = true;
-            this.LabelDown.Location = new System.Drawing.Point(13, 92);
+            this.LabelDown.Location = new System.Drawing.Point(5, 90);
             this.LabelDown.Name = "LabelDown";
             this.LabelDown.Size = new System.Drawing.Size(38, 13);
             this.LabelDown.TabIndex = 15;
@@ -239,7 +243,7 @@
             // LabelBeep
             // 
             this.LabelBeep.AutoSize = true;
-            this.LabelBeep.Location = new System.Drawing.Point(13, 118);
+            this.LabelBeep.Location = new System.Drawing.Point(5, 116);
             this.LabelBeep.Name = "LabelBeep";
             this.LabelBeep.Size = new System.Drawing.Size(35, 13);
             this.LabelBeep.TabIndex = 20;
@@ -249,14 +253,14 @@
             // 
             this.ComboBoxBeep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxBeep.FormattingEnabled = true;
-            this.ComboBoxBeep.Location = new System.Drawing.Point(52, 114);
+            this.ComboBoxBeep.Location = new System.Drawing.Point(52, 112);
             this.ComboBoxBeep.Name = "ComboBoxBeep";
             this.ComboBoxBeep.Size = new System.Drawing.Size(112, 21);
             this.ComboBoxBeep.TabIndex = 22;
             // 
             // ButtonImportBeep
             // 
-            this.ButtonImportBeep.Location = new System.Drawing.Point(168, 113);
+            this.ButtonImportBeep.Location = new System.Drawing.Point(168, 111);
             this.ButtonImportBeep.Name = "ButtonImportBeep";
             this.ButtonImportBeep.Size = new System.Drawing.Size(114, 23);
             this.ButtonImportBeep.TabIndex = 23;
@@ -268,7 +272,7 @@
             // 
             this.ComboBoxKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxKey.FormattingEnabled = true;
-            this.ComboBoxKey.Location = new System.Drawing.Point(52, 140);
+            this.ComboBoxKey.Location = new System.Drawing.Point(52, 164);
             this.ComboBoxKey.Name = "ComboBoxKey";
             this.ComboBoxKey.Size = new System.Drawing.Size(112, 21);
             this.ComboBoxKey.TabIndex = 25;
@@ -276,7 +280,7 @@
             // LabelKey
             // 
             this.LabelKey.AutoSize = true;
-            this.LabelKey.Location = new System.Drawing.Point(13, 143);
+            this.LabelKey.Location = new System.Drawing.Point(5, 167);
             this.LabelKey.Name = "LabelKey";
             this.LabelKey.Size = new System.Drawing.Size(28, 13);
             this.LabelKey.TabIndex = 24;
@@ -285,7 +289,7 @@
             // ButtonUpdate
             // 
             this.ButtonUpdate.Enabled = false;
-            this.ButtonUpdate.Location = new System.Drawing.Point(51, 165);
+            this.ButtonUpdate.Location = new System.Drawing.Point(51, 189);
             this.ButtonUpdate.Name = "ButtonUpdate";
             this.ButtonUpdate.Size = new System.Drawing.Size(114, 23);
             this.ButtonUpdate.TabIndex = 26;
@@ -296,18 +300,50 @@
             // CheckBoxAutoUpdate
             // 
             this.CheckBoxAutoUpdate.AutoSize = true;
-            this.CheckBoxAutoUpdate.Location = new System.Drawing.Point(172, 169);
+            this.CheckBoxAutoUpdate.Location = new System.Drawing.Point(172, 193);
             this.CheckBoxAutoUpdate.Name = "CheckBoxAutoUpdate";
             this.CheckBoxAutoUpdate.Size = new System.Drawing.Size(107, 17);
             this.CheckBoxAutoUpdate.TabIndex = 27;
             this.CheckBoxAutoUpdate.Text = "Check on launch";
             this.CheckBoxAutoUpdate.UseVisualStyleBackColor = true;
             // 
+            // TrackBarVolume
+            // 
+            this.TrackBarVolume.AutoSize = false;
+            this.TrackBarVolume.Location = new System.Drawing.Point(45, 139);
+            this.TrackBarVolume.Maximum = 100;
+            this.TrackBarVolume.Name = "TrackBarVolume";
+            this.TrackBarVolume.Size = new System.Drawing.Size(165, 21);
+            this.TrackBarVolume.TabIndex = 28;
+            this.TrackBarVolume.TickFrequency = 0;
+            this.TrackBarVolume.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.TrackBarVolume.Value = 100;
+            // 
+            // TextBoxVolume
+            // 
+            this.TextBoxVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.7F);
+            this.TextBoxVolume.Location = new System.Drawing.Point(208, 138);
+            this.TextBoxVolume.Name = "TextBoxVolume";
+            this.TextBoxVolume.Size = new System.Drawing.Size(73, 21);
+            this.TextBoxVolume.TabIndex = 29;
+            // 
+            // LabelVolume
+            // 
+            this.LabelVolume.AutoSize = true;
+            this.LabelVolume.Location = new System.Drawing.Point(6, 140);
+            this.LabelVolume.Name = "LabelVolume";
+            this.LabelVolume.Size = new System.Drawing.Size(45, 13);
+            this.LabelVolume.TabIndex = 30;
+            this.LabelVolume.Text = "Volume:";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 197);
+            this.ClientSize = new System.Drawing.Size(346, 220);
+            this.Controls.Add(this.LabelVolume);
+            this.Controls.Add(this.TextBoxVolume);
+            this.Controls.Add(this.TrackBarVolume);
             this.Controls.Add(this.CheckBoxAutoUpdate);
             this.Controls.Add(this.ButtonUpdate);
             this.Controls.Add(this.ComboBoxKey);
@@ -339,6 +375,7 @@
             this.Name = "SettingsForm";
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.SettingsForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.TrackBarVolume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -372,5 +409,8 @@
         public System.Windows.Forms.Label LabelKey;
         public System.Windows.Forms.Button ButtonUpdate;
         public System.Windows.Forms.CheckBox CheckBoxAutoUpdate;
+        private System.Windows.Forms.TrackBar TrackBarVolume;
+        private System.Windows.Forms.TextBox TextBoxVolume;
+        public System.Windows.Forms.Label LabelVolume;
     }
 }

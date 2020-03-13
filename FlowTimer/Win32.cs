@@ -15,6 +15,8 @@ namespace FlowTimer {
         public const int WM_SYSKEYDOWN = 0x0104;
         public const int WM_SYSKEYUP   = 0x0105;
 
+        private static double Frequency;
+
         public delegate IntPtr Proc(int nCode, int wParam, IntPtr lParam);
 
         public static IntPtr SetHook(int id, Proc proc) {
@@ -35,6 +37,18 @@ namespace FlowTimer {
             return Keys.None;
         }
 
+        public static void InitTiming() {
+            long freq;
+            QueryPerformanceFrequency(out freq);
+            Frequency = freq / 1000.0;
+        }
+
+        public static double GetTime() {
+            long timeStamp;
+            QueryPerformanceCounter(out timeStamp);
+            return timeStamp / Frequency;
+        }
+
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int wMsg, bool wParam, int lParam);
 
@@ -49,6 +63,9 @@ namespace FlowTimer {
         public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, int wParam, IntPtr lParam);
 
         [DllImport("user32.dll")]
+        public static extern short GetKeyState(Keys vKey);
+
+        [DllImport("user32.dll")]
         public static extern short GetAsyncKeyState(Keys vKey);
 
         [DllImport("kernel32.dll")]
@@ -56,5 +73,11 @@ namespace FlowTimer {
 
         [DllImport("kernel32.dll")]
         public static extern bool SetDllDirectory(string lpPathName);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
+
+        [DllImport("kernel32.dll")]
+        public static extern bool QueryPerformanceFrequency(out long lpFrequency);
     }
 }

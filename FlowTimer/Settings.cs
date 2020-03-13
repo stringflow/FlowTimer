@@ -15,6 +15,7 @@ namespace FlowTimer {
         public bool Pinned = false;
         public string LastLoadedTimers = null;
         public bool AutoUpdate = false;
+        public int Volume = 100;
 
         [JsonIgnore]
         private CheckBox _CheckBoxAutoUpdate;

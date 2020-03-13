@@ -38,11 +38,11 @@ namespace FlowTimer {
         public static readonly ushort AUDIO_S32SYS = BitConverter.IsLittleEndian ? AUDIO_S32LSB : AUDIO_S32MSB;
         public static readonly ushort AUDIO_F32SYS = BitConverter.IsLittleEndian ? AUDIO_F32LSB : AUDIO_F32MSB;
 
-        public const uint SDL_AUDIO_ALLOW_FREQUENCY_CHANGE = 0x00000001;
-        public const uint SDL_AUDIO_ALLOW_FORMAT_CHANGE    = 0x00000002;
-        public const uint SDL_AUDIO_ALLOW_CHANNELS_CHANGE  = 0x00000004;
-        public const uint SDL_AUDIO_ALLOW_SAMPLES_CHANGE   = 0x00000008;
-        public const uint SDL_AUDIO_ALLOW_ANY_CHANGE       = SDL_AUDIO_ALLOW_FREQUENCY_CHANGE | SDL_AUDIO_ALLOW_FORMAT_CHANGE | SDL_AUDIO_ALLOW_CHANNELS_CHANGE | SDL_AUDIO_ALLOW_SAMPLES_CHANGE;
+        public const int SDL_AUDIO_ALLOW_FREQUENCY_CHANGE = 0x00000001;
+        public const int SDL_AUDIO_ALLOW_FORMAT_CHANGE    = 0x00000002;
+        public const int SDL_AUDIO_ALLOW_CHANNELS_CHANGE  = 0x00000004;
+        public const int SDL_AUDIO_ALLOW_SAMPLES_CHANGE   = 0x00000008;
+        public const int SDL_AUDIO_ALLOW_ANY_CHANGE       = SDL_AUDIO_ALLOW_FREQUENCY_CHANGE | SDL_AUDIO_ALLOW_FORMAT_CHANGE | SDL_AUDIO_ALLOW_CHANNELS_CHANGE | SDL_AUDIO_ALLOW_SAMPLES_CHANGE;
 
         public delegate void SDL_AudioCallback(IntPtr userdata, IntPtr stream, int len);
 
@@ -68,9 +68,6 @@ namespace FlowTimer {
         public static extern void SDL_Delay(uint ms);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint SDL_GetTicks();
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr SDL_malloc(IntPtr size);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
@@ -78,12 +75,6 @@ namespace FlowTimer {
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_memset(IntPtr dst, int c, uint len);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_memcpy(IntPtr dst, IntPtr src, uint len);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr SDL_RWFromFile([In()] [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(SDLMarshaler))] string file, [In()] [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(SDLMarshaler))] string mode);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(SDLMarshaler), MarshalCookie = SDLMarshaler.LeaveAllocated)]
@@ -96,17 +87,10 @@ namespace FlowTimer {
         public static extern void SDL_PauseAudioDevice(uint dev, int pause_on);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SDL_QueueAudio(uint dev, byte* data, uint len);
+        public static extern int SDL_QueueAudio(uint dev, byte* data, int len);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern int SDL_ClearQueuedAudio(uint dev);
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl, EntryPoint = "SDL_LoadWAV_RW")]
-        private static extern IntPtr INTERNAL_SDL_LoadWAV_RW(IntPtr src, int freesrc, ref SDL_AudioSpec spec, out IntPtr audio_buf, out uint audio_len);
-        public static SDL_AudioSpec SDL_LoadWAV(string file, ref SDL_AudioSpec spec, out IntPtr audio_buf, out uint audio_len) { return Marshal.PtrToStructure<SDL_AudioSpec>(INTERNAL_SDL_LoadWAV_RW(SDL_RWFromFile(file, "rb"), 1, ref spec, out audio_buf, out audio_len)); }
-
-        [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SDL_FreeWAV(IntPtr audio_buf);
 
         [DllImport(DLL, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SDL_CloseAudioDevice(uint dev);
