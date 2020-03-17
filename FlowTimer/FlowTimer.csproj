@@ -136,6 +136,7 @@
     <Compile Include="SDL.cs" />
     <Compile Include="SpriteSheet.cs" />
     <Compile Include="JsonTimersFile.cs" />
+    <Compile Include="WASAPI.cs" />
     <Compile Include="Win32.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

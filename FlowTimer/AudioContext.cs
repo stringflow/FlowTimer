@@ -7,6 +7,8 @@ namespace FlowTimer {
 
     public unsafe class AudioContext {
 
+        public static int MinBufferSize;
+
         public SDL_AudioSpec AudioSpec;
         public uint DeviceId;
 
@@ -32,18 +34,22 @@ namespace FlowTimer {
             if(SDL_Init(SDL_INIT_AUDIO) < 0) {
                 throw new Exception("Unable to load SDL!");
             }
+
+            MMDevice audioDevice = WASAPI.CreateMMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            AudioClient audioClient = audioDevice.CreateAudioCilent();
+            audioClient.GetSharedModeEnginePeriod(out _, out _, out MinBufferSize, out _);
         }
 
         public static void GlobalDestroy() {
             SDL_Quit();
         }
 
-        public AudioContext(int freq, ushort format, byte channels, ushort samples) {
+        public AudioContext(int freq, ushort format, byte channels) {
             AudioSpec = new SDL_AudioSpec() {
                 freq = freq,
                 format = format,
                 channels = channels,
-                samples = samples,
+                samples = (ushort) MinBufferSize,
             };
 
             switch(format) {
@@ -56,7 +62,7 @@ namespace FlowTimer {
                 } break;
             };
 
-            DeviceId = SDL_OpenAudioDevice(null, 0, ref AudioSpec, out AudioSpec, SDL_AUDIO_ALLOW_SAMPLES_CHANGE);
+            DeviceId = SDL_OpenAudioDevice(null, 0, ref AudioSpec, out AudioSpec, 0);
             if(DeviceId == 0) {
                 throw new Exception(SDL_GetError());
             }

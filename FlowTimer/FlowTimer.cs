@@ -339,7 +339,7 @@ namespace FlowTimer {
 
             SDL_AudioSpec audioSpec;
             Wave.LoadWAV(Beeps + beepName + ".wav", out BeepSoundUnadjusted, out audioSpec);
-            AudioContext = new AudioContext(audioSpec.freq, audioSpec.format, audioSpec.channels, 256);
+            AudioContext = new AudioContext(audioSpec.freq, audioSpec.format, audioSpec.channels);
             AdjustBeepSoundVolume(Settings.Volume);
             CurrentTab.OnBeepSoundChange();
             Settings.Beep = beepName;
