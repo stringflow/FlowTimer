@@ -48,11 +48,19 @@
             this.ButtonImportBeep = new System.Windows.Forms.Button();
             this.ComboBoxKey = new System.Windows.Forms.ComboBox();
             this.LabelKey = new System.Windows.Forms.Label();
-            this.ButtonUpdate = new System.Windows.Forms.Button();
-            this.CheckBoxAutoUpdate = new System.Windows.Forms.CheckBox();
             this.TrackBarVolume = new System.Windows.Forms.TrackBar();
             this.TextBoxVolume = new System.Windows.Forms.TextBox();
             this.LabelVolume = new System.Windows.Forms.Label();
+            this.CheckBoxAddFrameGlobal = new System.Windows.Forms.CheckBox();
+            this.ButtonAddFrameClear = new System.Windows.Forms.Button();
+            this.ButtonAddFrameSecondary = new System.Windows.Forms.Button();
+            this.ButtonAddFramePrimary = new System.Windows.Forms.Button();
+            this.LabelAddFrame = new System.Windows.Forms.Label();
+            this.CheckBoxSubFrameGlobal = new System.Windows.Forms.CheckBox();
+            this.ButtonSubFrameClear = new System.Windows.Forms.Button();
+            this.ButtonSubFrameSecondary = new System.Windows.Forms.Button();
+            this.ButtonSubFramePrimary = new System.Windows.Forms.Button();
+            this.LabelSubFrame = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarVolume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -243,7 +251,7 @@
             // LabelBeep
             // 
             this.LabelBeep.AutoSize = true;
-            this.LabelBeep.Location = new System.Drawing.Point(5, 116);
+            this.LabelBeep.Location = new System.Drawing.Point(5, 168);
             this.LabelBeep.Name = "LabelBeep";
             this.LabelBeep.Size = new System.Drawing.Size(35, 13);
             this.LabelBeep.TabIndex = 20;
@@ -253,14 +261,14 @@
             // 
             this.ComboBoxBeep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxBeep.FormattingEnabled = true;
-            this.ComboBoxBeep.Location = new System.Drawing.Point(52, 112);
+            this.ComboBoxBeep.Location = new System.Drawing.Point(52, 164);
             this.ComboBoxBeep.Name = "ComboBoxBeep";
             this.ComboBoxBeep.Size = new System.Drawing.Size(112, 21);
             this.ComboBoxBeep.TabIndex = 22;
             // 
             // ButtonImportBeep
             // 
-            this.ButtonImportBeep.Location = new System.Drawing.Point(168, 111);
+            this.ButtonImportBeep.Location = new System.Drawing.Point(168, 163);
             this.ButtonImportBeep.Name = "ButtonImportBeep";
             this.ButtonImportBeep.Size = new System.Drawing.Size(114, 23);
             this.ButtonImportBeep.TabIndex = 23;
@@ -272,7 +280,7 @@
             // 
             this.ComboBoxKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxKey.FormattingEnabled = true;
-            this.ComboBoxKey.Location = new System.Drawing.Point(52, 164);
+            this.ComboBoxKey.Location = new System.Drawing.Point(52, 216);
             this.ComboBoxKey.Name = "ComboBoxKey";
             this.ComboBoxKey.Size = new System.Drawing.Size(112, 21);
             this.ComboBoxKey.TabIndex = 25;
@@ -280,37 +288,16 @@
             // LabelKey
             // 
             this.LabelKey.AutoSize = true;
-            this.LabelKey.Location = new System.Drawing.Point(5, 167);
+            this.LabelKey.Location = new System.Drawing.Point(5, 219);
             this.LabelKey.Name = "LabelKey";
             this.LabelKey.Size = new System.Drawing.Size(28, 13);
             this.LabelKey.TabIndex = 24;
             this.LabelKey.Text = "Key:";
             // 
-            // ButtonUpdate
-            // 
-            this.ButtonUpdate.Enabled = false;
-            this.ButtonUpdate.Location = new System.Drawing.Point(51, 189);
-            this.ButtonUpdate.Name = "ButtonUpdate";
-            this.ButtonUpdate.Size = new System.Drawing.Size(114, 23);
-            this.ButtonUpdate.TabIndex = 26;
-            this.ButtonUpdate.Text = "Checking...";
-            this.ButtonUpdate.UseVisualStyleBackColor = true;
-            this.ButtonUpdate.Click += new System.EventHandler(this.ButtonCheckForUpdates_Click);
-            // 
-            // CheckBoxAutoUpdate
-            // 
-            this.CheckBoxAutoUpdate.AutoSize = true;
-            this.CheckBoxAutoUpdate.Location = new System.Drawing.Point(172, 193);
-            this.CheckBoxAutoUpdate.Name = "CheckBoxAutoUpdate";
-            this.CheckBoxAutoUpdate.Size = new System.Drawing.Size(107, 17);
-            this.CheckBoxAutoUpdate.TabIndex = 27;
-            this.CheckBoxAutoUpdate.Text = "Check on launch";
-            this.CheckBoxAutoUpdate.UseVisualStyleBackColor = true;
-            // 
             // TrackBarVolume
             // 
             this.TrackBarVolume.AutoSize = false;
-            this.TrackBarVolume.Location = new System.Drawing.Point(45, 139);
+            this.TrackBarVolume.Location = new System.Drawing.Point(45, 191);
             this.TrackBarVolume.Maximum = 100;
             this.TrackBarVolume.Name = "TrackBarVolume";
             this.TrackBarVolume.Size = new System.Drawing.Size(165, 21);
@@ -322,7 +309,7 @@
             // TextBoxVolume
             // 
             this.TextBoxVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.7F);
-            this.TextBoxVolume.Location = new System.Drawing.Point(208, 138);
+            this.TextBoxVolume.Location = new System.Drawing.Point(208, 190);
             this.TextBoxVolume.Name = "TextBoxVolume";
             this.TextBoxVolume.Size = new System.Drawing.Size(73, 21);
             this.TextBoxVolume.TabIndex = 29;
@@ -330,22 +317,122 @@
             // LabelVolume
             // 
             this.LabelVolume.AutoSize = true;
-            this.LabelVolume.Location = new System.Drawing.Point(6, 140);
+            this.LabelVolume.Location = new System.Drawing.Point(6, 192);
             this.LabelVolume.Name = "LabelVolume";
             this.LabelVolume.Size = new System.Drawing.Size(45, 13);
             this.LabelVolume.TabIndex = 30;
             this.LabelVolume.Text = "Volume:";
             // 
+            // CheckBoxAddFrameGlobal
+            // 
+            this.CheckBoxAddFrameGlobal.AutoSize = true;
+            this.CheckBoxAddFrameGlobal.Location = new System.Drawing.Point(289, 115);
+            this.CheckBoxAddFrameGlobal.Name = "CheckBoxAddFrameGlobal";
+            this.CheckBoxAddFrameGlobal.Size = new System.Drawing.Size(56, 17);
+            this.CheckBoxAddFrameGlobal.TabIndex = 35;
+            this.CheckBoxAddFrameGlobal.Text = "Global";
+            this.CheckBoxAddFrameGlobal.UseVisualStyleBackColor = true;
+            // 
+            // ButtonAddFrameClear
+            // 
+            this.ButtonAddFrameClear.Location = new System.Drawing.Point(207, 111);
+            this.ButtonAddFrameClear.Name = "ButtonAddFrameClear";
+            this.ButtonAddFrameClear.Size = new System.Drawing.Size(75, 23);
+            this.ButtonAddFrameClear.TabIndex = 34;
+            this.ButtonAddFrameClear.Text = "Clear";
+            this.ButtonAddFrameClear.UseVisualStyleBackColor = true;
+            // 
+            // ButtonAddFrameSecondary
+            // 
+            this.ButtonAddFrameSecondary.Location = new System.Drawing.Point(129, 111);
+            this.ButtonAddFrameSecondary.Name = "ButtonAddFrameSecondary";
+            this.ButtonAddFrameSecondary.Size = new System.Drawing.Size(75, 23);
+            this.ButtonAddFrameSecondary.TabIndex = 33;
+            this.ButtonAddFrameSecondary.Text = "Unset";
+            this.ButtonAddFrameSecondary.UseVisualStyleBackColor = true;
+            // 
+            // ButtonAddFramePrimary
+            // 
+            this.ButtonAddFramePrimary.Location = new System.Drawing.Point(51, 111);
+            this.ButtonAddFramePrimary.Name = "ButtonAddFramePrimary";
+            this.ButtonAddFramePrimary.Size = new System.Drawing.Size(75, 23);
+            this.ButtonAddFramePrimary.TabIndex = 32;
+            this.ButtonAddFramePrimary.Text = "Unset";
+            this.ButtonAddFramePrimary.UseVisualStyleBackColor = true;
+            // 
+            // LabelAddFrame
+            // 
+            this.LabelAddFrame.AutoSize = true;
+            this.LabelAddFrame.Location = new System.Drawing.Point(5, 116);
+            this.LabelAddFrame.Name = "LabelAddFrame";
+            this.LabelAddFrame.Size = new System.Drawing.Size(45, 13);
+            this.LabelAddFrame.TabIndex = 31;
+            this.LabelAddFrame.Text = "+Frame:";
+            // 
+            // CheckBoxSubFrameGlobal
+            // 
+            this.CheckBoxSubFrameGlobal.AutoSize = true;
+            this.CheckBoxSubFrameGlobal.Location = new System.Drawing.Point(289, 141);
+            this.CheckBoxSubFrameGlobal.Name = "CheckBoxSubFrameGlobal";
+            this.CheckBoxSubFrameGlobal.Size = new System.Drawing.Size(56, 17);
+            this.CheckBoxSubFrameGlobal.TabIndex = 40;
+            this.CheckBoxSubFrameGlobal.Text = "Global";
+            this.CheckBoxSubFrameGlobal.UseVisualStyleBackColor = true;
+            // 
+            // ButtonSubFrameClear
+            // 
+            this.ButtonSubFrameClear.Location = new System.Drawing.Point(207, 137);
+            this.ButtonSubFrameClear.Name = "ButtonSubFrameClear";
+            this.ButtonSubFrameClear.Size = new System.Drawing.Size(75, 23);
+            this.ButtonSubFrameClear.TabIndex = 39;
+            this.ButtonSubFrameClear.Text = "Clear";
+            this.ButtonSubFrameClear.UseVisualStyleBackColor = true;
+            // 
+            // ButtonSubFrameSecondary
+            // 
+            this.ButtonSubFrameSecondary.Location = new System.Drawing.Point(129, 137);
+            this.ButtonSubFrameSecondary.Name = "ButtonSubFrameSecondary";
+            this.ButtonSubFrameSecondary.Size = new System.Drawing.Size(75, 23);
+            this.ButtonSubFrameSecondary.TabIndex = 38;
+            this.ButtonSubFrameSecondary.Text = "Unset";
+            this.ButtonSubFrameSecondary.UseVisualStyleBackColor = true;
+            // 
+            // ButtonSubFramePrimary
+            // 
+            this.ButtonSubFramePrimary.Location = new System.Drawing.Point(51, 137);
+            this.ButtonSubFramePrimary.Name = "ButtonSubFramePrimary";
+            this.ButtonSubFramePrimary.Size = new System.Drawing.Size(75, 23);
+            this.ButtonSubFramePrimary.TabIndex = 37;
+            this.ButtonSubFramePrimary.Text = "Unset";
+            this.ButtonSubFramePrimary.UseVisualStyleBackColor = true;
+            // 
+            // LabelSubFrame
+            // 
+            this.LabelSubFrame.AutoSize = true;
+            this.LabelSubFrame.Location = new System.Drawing.Point(5, 142);
+            this.LabelSubFrame.Name = "LabelSubFrame";
+            this.LabelSubFrame.Size = new System.Drawing.Size(42, 13);
+            this.LabelSubFrame.TabIndex = 36;
+            this.LabelSubFrame.Text = "-Frame:";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 220);
+            this.ClientSize = new System.Drawing.Size(346, 245);
+            this.Controls.Add(this.CheckBoxSubFrameGlobal);
+            this.Controls.Add(this.ButtonSubFrameClear);
+            this.Controls.Add(this.ButtonSubFrameSecondary);
+            this.Controls.Add(this.ButtonSubFramePrimary);
+            this.Controls.Add(this.LabelSubFrame);
+            this.Controls.Add(this.CheckBoxAddFrameGlobal);
+            this.Controls.Add(this.ButtonAddFrameClear);
+            this.Controls.Add(this.ButtonAddFrameSecondary);
+            this.Controls.Add(this.ButtonAddFramePrimary);
+            this.Controls.Add(this.LabelAddFrame);
             this.Controls.Add(this.LabelVolume);
             this.Controls.Add(this.TextBoxVolume);
             this.Controls.Add(this.TrackBarVolume);
-            this.Controls.Add(this.CheckBoxAutoUpdate);
-            this.Controls.Add(this.ButtonUpdate);
             this.Controls.Add(this.ComboBoxKey);
             this.Controls.Add(this.LabelKey);
             this.Controls.Add(this.ButtonImportBeep);
@@ -374,7 +461,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "SettingsForm";
             this.Text = "Settings";
-            this.Load += new System.EventHandler(this.SettingsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarVolume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -407,10 +493,18 @@
         public System.Windows.Forms.Button ButtonImportBeep;
         public System.Windows.Forms.ComboBox ComboBoxKey;
         public System.Windows.Forms.Label LabelKey;
-        public System.Windows.Forms.Button ButtonUpdate;
-        public System.Windows.Forms.CheckBox CheckBoxAutoUpdate;
         private System.Windows.Forms.TrackBar TrackBarVolume;
         private System.Windows.Forms.TextBox TextBoxVolume;
         public System.Windows.Forms.Label LabelVolume;
+        public System.Windows.Forms.CheckBox CheckBoxAddFrameGlobal;
+        public System.Windows.Forms.Button ButtonAddFrameClear;
+        public System.Windows.Forms.Button ButtonAddFrameSecondary;
+        public System.Windows.Forms.Button ButtonAddFramePrimary;
+        public System.Windows.Forms.Label LabelAddFrame;
+        public System.Windows.Forms.CheckBox CheckBoxSubFrameGlobal;
+        public System.Windows.Forms.Button ButtonSubFrameClear;
+        public System.Windows.Forms.Button ButtonSubFrameSecondary;
+        public System.Windows.Forms.Button ButtonSubFramePrimary;
+        public System.Windows.Forms.Label LabelSubFrame;
     }
 }

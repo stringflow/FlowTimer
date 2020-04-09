@@ -23,16 +23,13 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.components = new System.ComponentModel.Container();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.Label = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // Label
             // 
             this.Label.AutoSize = true;
-            this.Label.Location = new System.Drawing.Point(13, 13);
+            this.Label.Location = new System.Drawing.Point(21, 22);
             this.Label.Name = "Label";
             this.Label.Size = new System.Drawing.Size(95, 13);
             this.Label.TabIndex = 0;
@@ -42,19 +39,16 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(120, 39);
+            this.ClientSize = new System.Drawing.Size(137, 57);
             this.Controls.Add(this.Label);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "HotkeySelection";
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Label Label;
     }
 }

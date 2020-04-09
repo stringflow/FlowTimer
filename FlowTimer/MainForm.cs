@@ -51,5 +51,13 @@ namespace FlowTimer {
         private void VariableTimer_DataChange(object sender, EventArgs e) {
             FlowTimer.VariableOffset.OnDataChange();
         }
+
+        private void ButtonPlus_Click(object sender, EventArgs e) {
+            FlowTimer.VariableOffset.ChangeAudio(true);
+        }
+
+        private void ButtonMinus_Click(object sender, EventArgs e) {
+            FlowTimer.VariableOffset.ChangeAudio(false);
+        }
     }
 }

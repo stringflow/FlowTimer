@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 using System.Reflection;
 using static FlowTimer.Win32;
 using static FlowTimer.SDL;
@@ -61,10 +60,6 @@ namespace FlowTimer {
 
             Settings = File.Exists(SettingsFile) ? JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile)) : new Settings();
 
-            if(Settings.AutoUpdate) {
-                CheckForUpdates(false);
-            }
-
             PinSheet = new SpriteSheet(new Bitmap(FileSystem.ReadPackedResourceStream("FlowTimer.Resources.pin.png")), 16, 16);
             Pin(Settings.Pinned);
 
@@ -113,7 +108,10 @@ namespace FlowTimer {
         public static void SetMainForm(MainForm mainForm) {
             MainForm = mainForm;
             MainFormBaseHeight = mainForm.Height;
-            mainForm.RemoveKeyControls();
+            MainForm.RemoveKeyControls();
+
+            int buildVersion = Assembly.GetExecutingAssembly().GetName().Version.Major;
+            MainForm.Text += " (Build " + buildVersion + ")";
         }
 
         public static void RemoveKeyControls(this Control control) {
@@ -371,50 +369,6 @@ namespace FlowTimer {
 
         public static void ChangeKeyMethod(KeyMethod newMethod) {
             Settings.KeyMethod = newMethod;
-        }
-
-        public static void CheckForUpdates(bool displayNoUpdateMessage = true) {
-            int currentBuild = GetCurrentBuild();
-            int latestBuild = GetLatestBuild();
-
-            if(currentBuild >= latestBuild) {
-                if(displayNoUpdateMessage) {
-                    MessageBox.Show("No new update found.", "No Update Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                return;
-            }
-
-            if(MessageBox.Show("An update has been found!\nDo you wish to update to build " + latestBuild + " from build " + currentBuild + "?", "Update?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                Update(latestBuild);
-            }
-        }
-
-        public static bool UpdateAvailable() {
-            return GetLatestBuild() > GetCurrentBuild();
-        }
-
-        public static int GetLatestBuild() {
-            return RunUpdateCommand("-latest");
-        }
-
-        public static void Update(int buildNumber) {
-            RunUpdateCommand(string.Format("-update {0} \"{1}\" {2}", buildNumber, Assembly.GetExecutingAssembly().Location, Process.GetCurrentProcess().Id));
-        }
-
-        public static int RunUpdateCommand(string args) {
-            Process process = new Process();
-            process.StartInfo = new ProcessStartInfo() {
-                FileName = Folder + "Update.exe",
-                Arguments = args,
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                CreateNoWindow = true,
-            };
-            process.Start();
-            process.WaitForExit();
-            return process.ExitCode;
         }
     }
 }

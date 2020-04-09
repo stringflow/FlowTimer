@@ -35,7 +35,7 @@ namespace FlowTimer {
                 throw new Exception("Unable to load SDL!");
             }
 
-            MMDevice audioDevice = WASAPI.CreateMMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+            MMDevice audioDevice = MMDeviceAPI.CreateMMDeviceEnumerator().GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
             AudioClient audioClient = audioDevice.CreateAudioCilent();
             audioClient.GetSharedModeEnginePeriod(out _, out _, out MinBufferSize, out _);
         }

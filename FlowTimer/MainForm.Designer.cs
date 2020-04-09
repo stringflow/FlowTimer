@@ -38,6 +38,8 @@
             this.TabControl = new System.Windows.Forms.TabControl();
             this.TabPageFixedOffset = new System.Windows.Forms.TabPage();
             this.TabPageVariableOffset = new System.Windows.Forms.TabPage();
+            this.ButtonMinus = new System.Windows.Forms.Button();
+            this.ButtonPlus = new System.Windows.Forms.Button();
             this.ComboBoxFPS = new System.Windows.Forms.ComboBox();
             this.ButtonSubmit = new System.Windows.Forms.Button();
             this.LabelBeeps2 = new System.Windows.Forms.Label();
@@ -58,10 +60,10 @@
             // LabelTimer
             // 
             this.LabelTimer.AutoSize = true;
-            this.LabelTimer.Font = new System.Drawing.Font("Century Gothic", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelTimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelTimer.Location = new System.Drawing.Point(5, 4);
             this.LabelTimer.Name = "LabelTimer";
-            this.LabelTimer.Size = new System.Drawing.Size(114, 44);
+            this.LabelTimer.Size = new System.Drawing.Size(117, 42);
             this.LabelTimer.TabIndex = 0;
             this.LabelTimer.Text = "0.000";
             // 
@@ -211,6 +213,8 @@
             // TabPageVariableOffset
             // 
             this.TabPageVariableOffset.BackColor = System.Drawing.SystemColors.Control;
+            this.TabPageVariableOffset.Controls.Add(this.ButtonMinus);
+            this.TabPageVariableOffset.Controls.Add(this.ButtonPlus);
             this.TabPageVariableOffset.Controls.Add(this.ComboBoxFPS);
             this.TabPageVariableOffset.Controls.Add(this.ButtonSubmit);
             this.TabPageVariableOffset.Controls.Add(this.LabelBeeps2);
@@ -228,6 +232,26 @@
             this.TabPageVariableOffset.Size = new System.Drawing.Size(528, 224);
             this.TabPageVariableOffset.TabIndex = 1;
             this.TabPageVariableOffset.Text = "Variable Offset";
+            // 
+            // ButtonMinus
+            // 
+            this.ButtonMinus.Location = new System.Drawing.Point(413, 12);
+            this.ButtonMinus.Name = "ButtonMinus";
+            this.ButtonMinus.Size = new System.Drawing.Size(22, 22);
+            this.ButtonMinus.TabIndex = 13;
+            this.ButtonMinus.Text = "-";
+            this.ButtonMinus.UseVisualStyleBackColor = true;
+            this.ButtonMinus.Click += new System.EventHandler(this.ButtonMinus_Click);
+            // 
+            // ButtonPlus
+            // 
+            this.ButtonPlus.Location = new System.Drawing.Point(437, 12);
+            this.ButtonPlus.Name = "ButtonPlus";
+            this.ButtonPlus.Size = new System.Drawing.Size(22, 22);
+            this.ButtonPlus.TabIndex = 12;
+            this.ButtonPlus.Text = "+";
+            this.ButtonPlus.UseVisualStyleBackColor = true;
+            this.ButtonPlus.Click += new System.EventHandler(this.ButtonPlus_Click);
             // 
             // ComboBoxFPS
             // 
@@ -382,5 +406,7 @@
         public System.Windows.Forms.Label LabelFPS;
         public System.Windows.Forms.Button ButtonSubmit;
         public System.Windows.Forms.ComboBox ComboBoxFPS;
+        public System.Windows.Forms.Button ButtonMinus;
+        public System.Windows.Forms.Button ButtonPlus;
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Collections;
-using static FlowTimer.WASAPI;
+using static FlowTimer.MMDeviceAPI;
 
 namespace FlowTimer {
 
@@ -163,7 +163,7 @@ namespace FlowTimer {
         Communications,
     }
 
-    public static class WASAPI {
+    public static class MMDeviceAPI {
 
         public static Guid MMDeviceEnumeratorID = new Guid("BCDE0395-E52F-467C-8E3D-C4579291692E");
         public static Guid IAudioClient3ID = new Guid("7ED4EE07-8E67-4CD4-8C1A-2B7A5987AD42");

@@ -25,6 +25,8 @@ namespace FlowTimer {
         public bool Submitted;
         public double CurrentOffset;
 
+        public double Adjusted;
+
         public VariableOffsetTimer(TabPage tab, params Control[] copyControls) : base(tab, null, copyControls) {
             TextBoxFrame = FlowTimer.MainForm.TextBoxFrame;
             ComboBoxFPS = FlowTimer.MainForm.ComboBoxFPS;
@@ -61,6 +63,7 @@ namespace FlowTimer {
             Submitted = false;
             TextBoxFrame.Enabled = true;
             TextBoxFrame.Focus();
+            Adjusted = 0;
         }
 
         public override void OnTimerStop() {
@@ -70,9 +73,15 @@ namespace FlowTimer {
             TextBoxFrame.Enabled = false;
             EnableControls(true);
             CurrentOffset = double.MaxValue;
+            Submitted = false;
         }
 
         public override void OnKeyEvent(Keys key) {
+            if(FlowTimer.Settings.AddFrame.IsPressed(key) && FlowTimer.MainForm.ButtonPlus.Enabled) {
+                ChangeAudio(true);
+            } else if(FlowTimer.Settings.SubFrame.IsPressed(key) && FlowTimer.MainForm.ButtonMinus.Enabled) {
+                ChangeAudio(false);
+            }
         }
 
         public override void OnBeepSoundChange() {
@@ -92,19 +101,38 @@ namespace FlowTimer {
             TimerError error = GetVariableInfo(out Info);
             double currentTime = double.Parse(FlowTimer.MainForm.LabelTimer.Text);
             FlowTimer.MainForm.ButtonSubmit.Enabled = error == TimerError.NoError && !Submitted && FlowTimer.IsTimerRunning && Info.Frame / Info.FPS + Info.Offset / 1000.0f >= currentTime + (Info.Interval * (Info.NumBeeps - 1) / 1000.0f);
+
+            bool canAdjust = Submitted && currentTime < CurrentOffset - Info.Interval * (Info.NumBeeps - 1) / 1000.0f - 0.05;
+            FlowTimer.MainForm.ButtonPlus.Enabled = canAdjust;
+            FlowTimer.MainForm.ButtonMinus.Enabled = canAdjust;
         }
 
         public void Submit() {
             GetVariableInfo(out Info);
             double now = Win32.GetTime();
-            double offset = (Info.Frame / Info.FPS * 1000.0f) - (now - FlowTimer.TimerStart) + Info.Offset;
+            double offset = (Info.Frame / Info.FPS * 1000.0f) - (now - FlowTimer.TimerStart) + Info.Offset + Adjusted;
             FlowTimer.UpdatePCM(new double[] { offset }, Info.Interval, Info.NumBeeps, false);
             FlowTimer.AudioContext.QueueAudio(FlowTimer.PCM);
             ButtonSubmit.Enabled = false;
-            CurrentOffset = Info.Frame / Info.FPS + Info.Offset / 1000.0f;
+            CurrentOffset = Info.Frame / Info.FPS + (Info.Offset + Adjusted) / 1000.0f;
             Submitted = true;
             EnableControls(false);
             FlowTimer.MainForm.TextBoxFrame.Enabled = false;
+        }
+
+        public void ChangeAudio(bool lengthen) {
+            FlowTimer.AudioContext.ClearQueuedAudio();
+            double amount = 1000.0 / Info.FPS;
+            if(!lengthen) amount *= -1;
+            Adjusted += amount;
+            Submit();
+
+            int numFramesAdjusted = (int) Math.Round(Adjusted / 1000.0 * Info.FPS);
+            GetVariableInfo(out VariableInfo info);
+            TextBoxFrame.Text = info.Frame.ToString();
+            if(numFramesAdjusted != 0) {
+                TextBoxFrame.Text += numFramesAdjusted.ToString("+#;-#");
+            }
         }
 
         public void EnableControls(bool enabled) {
@@ -117,7 +145,10 @@ namespace FlowTimer {
         public TimerError GetVariableInfo(out VariableInfo info) {
             info = new VariableInfo();
 
-            if(!uint.TryParse(FlowTimer.MainForm.TextBoxFrame.Text, out info.Frame)) {
+            string frameText = FlowTimer.MainForm.TextBoxFrame.Text;
+            if(frameText.Contains("+") || frameText.Contains("-")) frameText = frameText.Substring(0, Math.Max(frameText.IndexOf("+"), frameText.IndexOf("-")));
+
+            if(!uint.TryParse(frameText, out info.Frame)) {
                 return TimerError.InvalidFrame;
             }
 

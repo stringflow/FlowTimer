@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace FlowTimer {
 
@@ -16,8 +15,8 @@ namespace FlowTimer {
             FlowTimer.Settings.Stop.SetControls(ButtonStopPrimary, ButtonStopSecondary, ButtonStopClear, CheckBoxStopGlobal);
             FlowTimer.Settings.Up.SetControls(ButtonUpPrimary, ButtonUpSecondary, ButtonUpClear, CheckBoxUpGlobal);
             FlowTimer.Settings.Down.SetControls(ButtonDownPrimary, ButtonDownSecondary, ButtonDownClear, CheckBoxDownGlobal);
-
-            FlowTimer.Settings.CheckBoxAutoUpdate = CheckBoxAutoUpdate;
+            FlowTimer.Settings.AddFrame.SetControls(ButtonAddFramePrimary, ButtonAddFrameSecondary, ButtonAddFrameClear, CheckBoxAddFrameGlobal);
+            FlowTimer.Settings.SubFrame.SetControls(ButtonSubFramePrimary, ButtonSubFrameSecondary, ButtonSubFrameClear, CheckBoxSubFrameGlobal);
 
             foreach(string file in Directory.GetFiles(FlowTimer.Beeps, "*.wav")) {
                 ComboBoxBeep.Items.Add(Path.GetFileNameWithoutExtension(file));
@@ -40,17 +39,6 @@ namespace FlowTimer {
             ComboBoxKey.SelectedIndexChanged += ComboBoxKey_SelectedIndexChanged;
         }
 
-        private void SettingsForm_Load(object sender, EventArgs e) {
-            Task.Factory.StartNew(() => {
-                bool updateAvailable = UpdateFound ? UpdateFound : FlowTimer.UpdateAvailable();
-                UpdateFound = updateAvailable;
-                Invoke(new MethodInvoker(() => {
-                    ButtonUpdate.Enabled = updateAvailable;
-                    ButtonUpdate.Text = updateAvailable ? "Update Available" : "No Update Found";
-                }));
-            });
-        }
-
         private void ComboBoxBeep_SelectedIndexChanged(object sender, EventArgs e) {
             FlowTimer.ChangeBeepSound(ComboBoxBeep.SelectedItem as string);
         }
@@ -61,10 +49,6 @@ namespace FlowTimer {
 
         private void ButtonImportBeep_Click(object sender, EventArgs e) {
             FlowTimer.OpenImportBeepSoundDialog();
-        }
-
-        private void ButtonCheckForUpdates_Click(object sender, EventArgs e) {
-            FlowTimer.CheckForUpdates();
         }
 
         private void TrackBarVolume_ValueChanged(object sender, EventArgs e) {

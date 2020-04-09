@@ -136,7 +136,7 @@
     <Compile Include="SDL.cs" />
     <Compile Include="SpriteSheet.cs" />
     <Compile Include="JsonTimersFile.cs" />
-    <Compile Include="WASAPI.cs" />
+    <Compile Include="MMDeviceAPI.cs" />
     <Compile Include="Win32.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -173,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ping1.wav" />
-    <EmbeddedResource Include="Resources\Update.exe" />
     <EmbeddedResource Include="Dependencies\Newtonsoft.Json.dll" />
     <EmbeddedResource Include="Resources\pin.png" />
     <EmbeddedResource Include="Resources\lock.png" />

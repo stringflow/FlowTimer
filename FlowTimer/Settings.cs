@@ -10,6 +10,8 @@ namespace FlowTimer {
         public Hotkey Stop  = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Up    = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Down  = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey AddFrame = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey SubFrame = new Hotkey(Keys.None, Keys.None, false);
         public KeyMethod KeyMethod = KeyMethod.OnPress;
         public string Beep = "ping1";
         public bool Pinned = false;
