@@ -61,6 +61,11 @@
             this.ButtonSubFrameSecondary = new System.Windows.Forms.Button();
             this.ButtonSubFramePrimary = new System.Windows.Forms.Button();
             this.LabelSubFrame = new System.Windows.Forms.Label();
+            this.CheckBoxUndoGlobal = new System.Windows.Forms.CheckBox();
+            this.ButtonUndoClear = new System.Windows.Forms.Button();
+            this.ButtonUndoSecondary = new System.Windows.Forms.Button();
+            this.ButtonUndoPrimary = new System.Windows.Forms.Button();
+            this.LabelUndo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.TrackBarVolume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -159,7 +164,7 @@
             // CheckBoxUpGlobal
             // 
             this.CheckBoxUpGlobal.AutoSize = true;
-            this.CheckBoxUpGlobal.Location = new System.Drawing.Point(289, 63);
+            this.CheckBoxUpGlobal.Location = new System.Drawing.Point(289, 89);
             this.CheckBoxUpGlobal.Name = "CheckBoxUpGlobal";
             this.CheckBoxUpGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxUpGlobal.TabIndex = 14;
@@ -168,7 +173,7 @@
             // 
             // ButtonUpClear
             // 
-            this.ButtonUpClear.Location = new System.Drawing.Point(207, 59);
+            this.ButtonUpClear.Location = new System.Drawing.Point(207, 85);
             this.ButtonUpClear.Name = "ButtonUpClear";
             this.ButtonUpClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonUpClear.TabIndex = 13;
@@ -177,7 +182,7 @@
             // 
             // ButtonUpSecondary
             // 
-            this.ButtonUpSecondary.Location = new System.Drawing.Point(129, 59);
+            this.ButtonUpSecondary.Location = new System.Drawing.Point(129, 85);
             this.ButtonUpSecondary.Name = "ButtonUpSecondary";
             this.ButtonUpSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonUpSecondary.TabIndex = 12;
@@ -186,7 +191,7 @@
             // 
             // ButtonUpPrimary
             // 
-            this.ButtonUpPrimary.Location = new System.Drawing.Point(51, 59);
+            this.ButtonUpPrimary.Location = new System.Drawing.Point(51, 85);
             this.ButtonUpPrimary.Name = "ButtonUpPrimary";
             this.ButtonUpPrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonUpPrimary.TabIndex = 11;
@@ -196,7 +201,7 @@
             // LabelUp
             // 
             this.LabelUp.AutoSize = true;
-            this.LabelUp.Location = new System.Drawing.Point(5, 64);
+            this.LabelUp.Location = new System.Drawing.Point(5, 90);
             this.LabelUp.Name = "LabelUp";
             this.LabelUp.Size = new System.Drawing.Size(24, 13);
             this.LabelUp.TabIndex = 10;
@@ -205,7 +210,7 @@
             // CheckBoxDownGlobal
             // 
             this.CheckBoxDownGlobal.AutoSize = true;
-            this.CheckBoxDownGlobal.Location = new System.Drawing.Point(289, 89);
+            this.CheckBoxDownGlobal.Location = new System.Drawing.Point(289, 115);
             this.CheckBoxDownGlobal.Name = "CheckBoxDownGlobal";
             this.CheckBoxDownGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxDownGlobal.TabIndex = 19;
@@ -214,7 +219,7 @@
             // 
             // ButtonDownClear
             // 
-            this.ButtonDownClear.Location = new System.Drawing.Point(207, 85);
+            this.ButtonDownClear.Location = new System.Drawing.Point(207, 111);
             this.ButtonDownClear.Name = "ButtonDownClear";
             this.ButtonDownClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonDownClear.TabIndex = 18;
@@ -223,7 +228,7 @@
             // 
             // ButtonDownSecondary
             // 
-            this.ButtonDownSecondary.Location = new System.Drawing.Point(129, 85);
+            this.ButtonDownSecondary.Location = new System.Drawing.Point(129, 111);
             this.ButtonDownSecondary.Name = "ButtonDownSecondary";
             this.ButtonDownSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonDownSecondary.TabIndex = 17;
@@ -232,7 +237,7 @@
             // 
             // ButtonDownPrimary
             // 
-            this.ButtonDownPrimary.Location = new System.Drawing.Point(51, 85);
+            this.ButtonDownPrimary.Location = new System.Drawing.Point(51, 111);
             this.ButtonDownPrimary.Name = "ButtonDownPrimary";
             this.ButtonDownPrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonDownPrimary.TabIndex = 16;
@@ -242,7 +247,7 @@
             // LabelDown
             // 
             this.LabelDown.AutoSize = true;
-            this.LabelDown.Location = new System.Drawing.Point(5, 90);
+            this.LabelDown.Location = new System.Drawing.Point(5, 116);
             this.LabelDown.Name = "LabelDown";
             this.LabelDown.Size = new System.Drawing.Size(38, 13);
             this.LabelDown.TabIndex = 15;
@@ -251,7 +256,7 @@
             // LabelBeep
             // 
             this.LabelBeep.AutoSize = true;
-            this.LabelBeep.Location = new System.Drawing.Point(5, 168);
+            this.LabelBeep.Location = new System.Drawing.Point(5, 194);
             this.LabelBeep.Name = "LabelBeep";
             this.LabelBeep.Size = new System.Drawing.Size(35, 13);
             this.LabelBeep.TabIndex = 20;
@@ -261,14 +266,14 @@
             // 
             this.ComboBoxBeep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxBeep.FormattingEnabled = true;
-            this.ComboBoxBeep.Location = new System.Drawing.Point(52, 164);
+            this.ComboBoxBeep.Location = new System.Drawing.Point(52, 190);
             this.ComboBoxBeep.Name = "ComboBoxBeep";
             this.ComboBoxBeep.Size = new System.Drawing.Size(112, 21);
             this.ComboBoxBeep.TabIndex = 22;
             // 
             // ButtonImportBeep
             // 
-            this.ButtonImportBeep.Location = new System.Drawing.Point(168, 163);
+            this.ButtonImportBeep.Location = new System.Drawing.Point(168, 189);
             this.ButtonImportBeep.Name = "ButtonImportBeep";
             this.ButtonImportBeep.Size = new System.Drawing.Size(114, 23);
             this.ButtonImportBeep.TabIndex = 23;
@@ -280,7 +285,7 @@
             // 
             this.ComboBoxKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxKey.FormattingEnabled = true;
-            this.ComboBoxKey.Location = new System.Drawing.Point(52, 216);
+            this.ComboBoxKey.Location = new System.Drawing.Point(52, 242);
             this.ComboBoxKey.Name = "ComboBoxKey";
             this.ComboBoxKey.Size = new System.Drawing.Size(112, 21);
             this.ComboBoxKey.TabIndex = 25;
@@ -288,7 +293,7 @@
             // LabelKey
             // 
             this.LabelKey.AutoSize = true;
-            this.LabelKey.Location = new System.Drawing.Point(5, 219);
+            this.LabelKey.Location = new System.Drawing.Point(5, 245);
             this.LabelKey.Name = "LabelKey";
             this.LabelKey.Size = new System.Drawing.Size(28, 13);
             this.LabelKey.TabIndex = 24;
@@ -297,7 +302,7 @@
             // TrackBarVolume
             // 
             this.TrackBarVolume.AutoSize = false;
-            this.TrackBarVolume.Location = new System.Drawing.Point(45, 191);
+            this.TrackBarVolume.Location = new System.Drawing.Point(45, 217);
             this.TrackBarVolume.Maximum = 100;
             this.TrackBarVolume.Name = "TrackBarVolume";
             this.TrackBarVolume.Size = new System.Drawing.Size(165, 21);
@@ -309,7 +314,7 @@
             // TextBoxVolume
             // 
             this.TextBoxVolume.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.7F);
-            this.TextBoxVolume.Location = new System.Drawing.Point(208, 190);
+            this.TextBoxVolume.Location = new System.Drawing.Point(208, 216);
             this.TextBoxVolume.Name = "TextBoxVolume";
             this.TextBoxVolume.Size = new System.Drawing.Size(73, 21);
             this.TextBoxVolume.TabIndex = 29;
@@ -317,7 +322,7 @@
             // LabelVolume
             // 
             this.LabelVolume.AutoSize = true;
-            this.LabelVolume.Location = new System.Drawing.Point(6, 192);
+            this.LabelVolume.Location = new System.Drawing.Point(6, 218);
             this.LabelVolume.Name = "LabelVolume";
             this.LabelVolume.Size = new System.Drawing.Size(45, 13);
             this.LabelVolume.TabIndex = 30;
@@ -326,7 +331,7 @@
             // CheckBoxAddFrameGlobal
             // 
             this.CheckBoxAddFrameGlobal.AutoSize = true;
-            this.CheckBoxAddFrameGlobal.Location = new System.Drawing.Point(289, 115);
+            this.CheckBoxAddFrameGlobal.Location = new System.Drawing.Point(289, 141);
             this.CheckBoxAddFrameGlobal.Name = "CheckBoxAddFrameGlobal";
             this.CheckBoxAddFrameGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxAddFrameGlobal.TabIndex = 35;
@@ -335,7 +340,7 @@
             // 
             // ButtonAddFrameClear
             // 
-            this.ButtonAddFrameClear.Location = new System.Drawing.Point(207, 111);
+            this.ButtonAddFrameClear.Location = new System.Drawing.Point(207, 137);
             this.ButtonAddFrameClear.Name = "ButtonAddFrameClear";
             this.ButtonAddFrameClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonAddFrameClear.TabIndex = 34;
@@ -344,7 +349,7 @@
             // 
             // ButtonAddFrameSecondary
             // 
-            this.ButtonAddFrameSecondary.Location = new System.Drawing.Point(129, 111);
+            this.ButtonAddFrameSecondary.Location = new System.Drawing.Point(129, 137);
             this.ButtonAddFrameSecondary.Name = "ButtonAddFrameSecondary";
             this.ButtonAddFrameSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonAddFrameSecondary.TabIndex = 33;
@@ -353,7 +358,7 @@
             // 
             // ButtonAddFramePrimary
             // 
-            this.ButtonAddFramePrimary.Location = new System.Drawing.Point(51, 111);
+            this.ButtonAddFramePrimary.Location = new System.Drawing.Point(51, 137);
             this.ButtonAddFramePrimary.Name = "ButtonAddFramePrimary";
             this.ButtonAddFramePrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonAddFramePrimary.TabIndex = 32;
@@ -363,7 +368,7 @@
             // LabelAddFrame
             // 
             this.LabelAddFrame.AutoSize = true;
-            this.LabelAddFrame.Location = new System.Drawing.Point(5, 116);
+            this.LabelAddFrame.Location = new System.Drawing.Point(5, 142);
             this.LabelAddFrame.Name = "LabelAddFrame";
             this.LabelAddFrame.Size = new System.Drawing.Size(45, 13);
             this.LabelAddFrame.TabIndex = 31;
@@ -372,7 +377,7 @@
             // CheckBoxSubFrameGlobal
             // 
             this.CheckBoxSubFrameGlobal.AutoSize = true;
-            this.CheckBoxSubFrameGlobal.Location = new System.Drawing.Point(289, 141);
+            this.CheckBoxSubFrameGlobal.Location = new System.Drawing.Point(289, 167);
             this.CheckBoxSubFrameGlobal.Name = "CheckBoxSubFrameGlobal";
             this.CheckBoxSubFrameGlobal.Size = new System.Drawing.Size(56, 17);
             this.CheckBoxSubFrameGlobal.TabIndex = 40;
@@ -381,7 +386,7 @@
             // 
             // ButtonSubFrameClear
             // 
-            this.ButtonSubFrameClear.Location = new System.Drawing.Point(207, 137);
+            this.ButtonSubFrameClear.Location = new System.Drawing.Point(207, 163);
             this.ButtonSubFrameClear.Name = "ButtonSubFrameClear";
             this.ButtonSubFrameClear.Size = new System.Drawing.Size(75, 23);
             this.ButtonSubFrameClear.TabIndex = 39;
@@ -390,7 +395,7 @@
             // 
             // ButtonSubFrameSecondary
             // 
-            this.ButtonSubFrameSecondary.Location = new System.Drawing.Point(129, 137);
+            this.ButtonSubFrameSecondary.Location = new System.Drawing.Point(129, 163);
             this.ButtonSubFrameSecondary.Name = "ButtonSubFrameSecondary";
             this.ButtonSubFrameSecondary.Size = new System.Drawing.Size(75, 23);
             this.ButtonSubFrameSecondary.TabIndex = 38;
@@ -399,7 +404,7 @@
             // 
             // ButtonSubFramePrimary
             // 
-            this.ButtonSubFramePrimary.Location = new System.Drawing.Point(51, 137);
+            this.ButtonSubFramePrimary.Location = new System.Drawing.Point(51, 163);
             this.ButtonSubFramePrimary.Name = "ButtonSubFramePrimary";
             this.ButtonSubFramePrimary.Size = new System.Drawing.Size(75, 23);
             this.ButtonSubFramePrimary.TabIndex = 37;
@@ -409,17 +414,68 @@
             // LabelSubFrame
             // 
             this.LabelSubFrame.AutoSize = true;
-            this.LabelSubFrame.Location = new System.Drawing.Point(5, 142);
+            this.LabelSubFrame.Location = new System.Drawing.Point(5, 168);
             this.LabelSubFrame.Name = "LabelSubFrame";
             this.LabelSubFrame.Size = new System.Drawing.Size(42, 13);
             this.LabelSubFrame.TabIndex = 36;
             this.LabelSubFrame.Text = "-Frame:";
             // 
+            // CheckBoxUndoGlobal
+            // 
+            this.CheckBoxUndoGlobal.AutoSize = true;
+            this.CheckBoxUndoGlobal.Location = new System.Drawing.Point(289, 63);
+            this.CheckBoxUndoGlobal.Name = "CheckBoxUndoGlobal";
+            this.CheckBoxUndoGlobal.Size = new System.Drawing.Size(56, 17);
+            this.CheckBoxUndoGlobal.TabIndex = 45;
+            this.CheckBoxUndoGlobal.Text = "Global";
+            this.CheckBoxUndoGlobal.UseVisualStyleBackColor = true;
+            // 
+            // ButtonUndoClear
+            // 
+            this.ButtonUndoClear.Location = new System.Drawing.Point(207, 59);
+            this.ButtonUndoClear.Name = "ButtonUndoClear";
+            this.ButtonUndoClear.Size = new System.Drawing.Size(75, 23);
+            this.ButtonUndoClear.TabIndex = 44;
+            this.ButtonUndoClear.Text = "Clear";
+            this.ButtonUndoClear.UseVisualStyleBackColor = true;
+            // 
+            // ButtonUndoSecondary
+            // 
+            this.ButtonUndoSecondary.Location = new System.Drawing.Point(129, 59);
+            this.ButtonUndoSecondary.Name = "ButtonUndoSecondary";
+            this.ButtonUndoSecondary.Size = new System.Drawing.Size(75, 23);
+            this.ButtonUndoSecondary.TabIndex = 43;
+            this.ButtonUndoSecondary.Text = "Unset";
+            this.ButtonUndoSecondary.UseVisualStyleBackColor = true;
+            // 
+            // ButtonUndoPrimary
+            // 
+            this.ButtonUndoPrimary.Location = new System.Drawing.Point(51, 59);
+            this.ButtonUndoPrimary.Name = "ButtonUndoPrimary";
+            this.ButtonUndoPrimary.Size = new System.Drawing.Size(75, 23);
+            this.ButtonUndoPrimary.TabIndex = 42;
+            this.ButtonUndoPrimary.Text = "Unset";
+            this.ButtonUndoPrimary.UseVisualStyleBackColor = true;
+            // 
+            // LabelUndo
+            // 
+            this.LabelUndo.AutoSize = true;
+            this.LabelUndo.Location = new System.Drawing.Point(5, 64);
+            this.LabelUndo.Name = "LabelUndo";
+            this.LabelUndo.Size = new System.Drawing.Size(36, 13);
+            this.LabelUndo.TabIndex = 41;
+            this.LabelUndo.Text = "Undo:";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 245);
+            this.ClientSize = new System.Drawing.Size(346, 271);
+            this.Controls.Add(this.CheckBoxUndoGlobal);
+            this.Controls.Add(this.ButtonUndoClear);
+            this.Controls.Add(this.ButtonUndoSecondary);
+            this.Controls.Add(this.ButtonUndoPrimary);
+            this.Controls.Add(this.LabelUndo);
             this.Controls.Add(this.CheckBoxSubFrameGlobal);
             this.Controls.Add(this.ButtonSubFrameClear);
             this.Controls.Add(this.ButtonSubFrameSecondary);
@@ -506,5 +562,10 @@
         public System.Windows.Forms.Button ButtonSubFrameSecondary;
         public System.Windows.Forms.Button ButtonSubFramePrimary;
         public System.Windows.Forms.Label LabelSubFrame;
+        public System.Windows.Forms.CheckBox CheckBoxUndoGlobal;
+        public System.Windows.Forms.Button ButtonUndoClear;
+        public System.Windows.Forms.Button ButtonUndoSecondary;
+        public System.Windows.Forms.Button ButtonUndoPrimary;
+        public System.Windows.Forms.Label LabelUndo;
     }
 }

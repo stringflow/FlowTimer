@@ -13,6 +13,7 @@ namespace FlowTimer {
 
             FlowTimer.Settings.Start.SetControls(ButtonStartPrimary, ButtonStartSecondary, ButtonStartClear, CheckBoxStartGlobal);
             FlowTimer.Settings.Stop.SetControls(ButtonStopPrimary, ButtonStopSecondary, ButtonStopClear, CheckBoxStopGlobal);
+            FlowTimer.Settings.Undo.SetControls(ButtonUndoPrimary, ButtonUndoSecondary, ButtonUndoClear, CheckBoxUndoGlobal);
             FlowTimer.Settings.Up.SetControls(ButtonUpPrimary, ButtonUpSecondary, ButtonUpClear, CheckBoxUpGlobal);
             FlowTimer.Settings.Down.SetControls(ButtonDownPrimary, ButtonDownSecondary, ButtonDownClear, CheckBoxDownGlobal);
             FlowTimer.Settings.AddFrame.SetControls(ButtonAddFramePrimary, ButtonAddFrameSecondary, ButtonAddFrameClear, CheckBoxAddFrameGlobal);

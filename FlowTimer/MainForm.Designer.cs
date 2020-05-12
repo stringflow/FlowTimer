@@ -44,13 +44,14 @@
             this.ButtonSubmit = new System.Windows.Forms.Button();
             this.LabelBeeps2 = new System.Windows.Forms.Label();
             this.TextBoxBeeps = new System.Windows.Forms.TextBox();
-            this.labelInterval2 = new System.Windows.Forms.Label();
+            this.LabelInterval2 = new System.Windows.Forms.Label();
             this.TextBoxInterval = new System.Windows.Forms.TextBox();
             this.LabelOffset2 = new System.Windows.Forms.Label();
             this.TextBoxOffset = new System.Windows.Forms.TextBox();
             this.LabelFPS = new System.Windows.Forms.Label();
             this.LabelFrame = new System.Windows.Forms.Label();
             this.TextBoxFrame = new System.Windows.Forms.TextBox();
+            this.ButtonUndo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxPin)).BeginInit();
             this.TabControl.SuspendLayout();
             this.TabPageFixedOffset.SuspendLayout();
@@ -213,13 +214,14 @@
             // TabPageVariableOffset
             // 
             this.TabPageVariableOffset.BackColor = System.Drawing.SystemColors.Control;
+            this.TabPageVariableOffset.Controls.Add(this.ButtonUndo);
             this.TabPageVariableOffset.Controls.Add(this.ButtonMinus);
             this.TabPageVariableOffset.Controls.Add(this.ButtonPlus);
             this.TabPageVariableOffset.Controls.Add(this.ComboBoxFPS);
             this.TabPageVariableOffset.Controls.Add(this.ButtonSubmit);
             this.TabPageVariableOffset.Controls.Add(this.LabelBeeps2);
             this.TabPageVariableOffset.Controls.Add(this.TextBoxBeeps);
-            this.TabPageVariableOffset.Controls.Add(this.labelInterval2);
+            this.TabPageVariableOffset.Controls.Add(this.LabelInterval2);
             this.TabPageVariableOffset.Controls.Add(this.TextBoxInterval);
             this.TabPageVariableOffset.Controls.Add(this.LabelOffset2);
             this.TabPageVariableOffset.Controls.Add(this.TextBoxOffset);
@@ -298,14 +300,14 @@
             this.TextBoxBeeps.TabIndex = 8;
             this.TextBoxBeeps.TextChanged += new System.EventHandler(this.VariableTimer_DataChange);
             // 
-            // labelInterval2
+            // LabelInterval2
             // 
-            this.labelInterval2.AutoSize = true;
-            this.labelInterval2.Location = new System.Drawing.Point(192, 94);
-            this.labelInterval2.Name = "labelInterval2";
-            this.labelInterval2.Size = new System.Drawing.Size(45, 13);
-            this.labelInterval2.TabIndex = 7;
-            this.labelInterval2.Text = "Interval:";
+            this.LabelInterval2.AutoSize = true;
+            this.LabelInterval2.Location = new System.Drawing.Point(192, 94);
+            this.LabelInterval2.Name = "LabelInterval2";
+            this.LabelInterval2.Size = new System.Drawing.Size(45, 13);
+            this.LabelInterval2.TabIndex = 7;
+            this.LabelInterval2.Text = "Interval:";
             // 
             // TextBoxInterval
             // 
@@ -358,6 +360,16 @@
             this.TextBoxFrame.TabIndex = 0;
             this.TextBoxFrame.TextChanged += new System.EventHandler(this.VariableTimer_DataChange);
             // 
+            // ButtonUndo
+            // 
+            this.ButtonUndo.Location = new System.Drawing.Point(326, 38);
+            this.ButtonUndo.Name = "ButtonUndo";
+            this.ButtonUndo.Size = new System.Drawing.Size(80, 22);
+            this.ButtonUndo.TabIndex = 14;
+            this.ButtonUndo.Text = "Undo";
+            this.ButtonUndo.UseVisualStyleBackColor = true;
+            this.ButtonUndo.Click += new System.EventHandler(this.ButtonUndo_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -399,7 +411,7 @@
         public System.Windows.Forms.Label LabelFrame;
         public System.Windows.Forms.Label LabelBeeps2;
         public System.Windows.Forms.TextBox TextBoxBeeps;
-        public System.Windows.Forms.Label labelInterval2;
+        public System.Windows.Forms.Label LabelInterval2;
         public System.Windows.Forms.TextBox TextBoxInterval;
         public System.Windows.Forms.Label LabelOffset2;
         public System.Windows.Forms.TextBox TextBoxOffset;
@@ -408,5 +420,6 @@
         public System.Windows.Forms.ComboBox ComboBoxFPS;
         public System.Windows.Forms.Button ButtonMinus;
         public System.Windows.Forms.Button ButtonPlus;
+        public System.Windows.Forms.Button ButtonUndo;
     }
 }

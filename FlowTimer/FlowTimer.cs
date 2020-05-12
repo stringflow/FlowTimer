@@ -218,9 +218,9 @@ namespace FlowTimer {
         public static void UpdatePCM(double[] offsets, uint interval, uint numBeeps, bool garbageCollect = true) {
             // try to force garbage collection on the old pcm data
             if(garbageCollect) GC.Collect();
-            MaxOffset = offsets.Max();
+            double maxOffset = offsets.Max();
 
-            PCM = new byte[((int) Math.Ceiling(MaxOffset / 1000.0 * AudioContext.SampleRate)) * AudioContext.NumChannels * AudioContext.BytesPerSample + BeepSound.Length];
+            PCM = new byte[((int) Math.Ceiling(maxOffset / 1000.0 * AudioContext.SampleRate)) * AudioContext.NumChannels * AudioContext.BytesPerSample + BeepSound.Length];
 
             foreach(double offset in offsets) {
                 for(int i = 0; i < numBeeps; i++) {
@@ -250,6 +250,7 @@ namespace FlowTimer {
             TimerUpdateThread.AbortIfAlive();
             TimerUpdateThread = new Thread(TimerUpdateCallback);
             TimerUpdateThread.Start();
+            CurrentTab.OnVisualTimerStart();
         }
 
         public static void StopTimer(bool timerExpired) {
@@ -258,10 +259,10 @@ namespace FlowTimer {
                 TimerUpdateThread.AbortIfAlive();
             }
 
+            IsTimerRunning = false;
             CurrentTab.OnTimerStop();
             EnableControls(true);
             LockedTab = null;
-            IsTimerRunning = false;
             VariableOffset.OnDataChange();
         }
 

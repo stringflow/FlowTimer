@@ -1,6 +1,7 @@
 ﻿using System;
-using Newtonsoft.Json;
 using System.Windows.Forms;
+using System.Drawing;
+using Newtonsoft.Json;
 
 namespace FlowTimer {
 
@@ -8,6 +9,7 @@ namespace FlowTimer {
 
         public Hotkey Start = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Stop  = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Undo  = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Up    = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Down  = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey AddFrame = new Hotkey(Keys.None, Keys.None, false);
@@ -132,6 +134,7 @@ namespace FlowTimer {
         private void UpdateButtonText() {
             if(_Button != null) {
                 _Button.Text = _Key.ToFormattedString();
+                _Button.ForeColor = _Key == Keys.None ? Color.Gray : SystemColors.ControlText;
             }
         }
 

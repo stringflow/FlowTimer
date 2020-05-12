@@ -30,6 +30,7 @@ namespace FlowTimer {
 
         public abstract void OnInit();
         public abstract void OnTimerStart();
+        public abstract void OnVisualTimerStart();
         public abstract void OnTimerStop();
         public abstract void OnKeyEvent(Keys key);
         public abstract void OnBeepSoundChange();

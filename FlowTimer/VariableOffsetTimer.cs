@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace FlowTimer {
 
@@ -60,27 +61,32 @@ namespace FlowTimer {
         }
 
         public override void OnTimerStart() {
+            CurrentOffset = double.MaxValue;
             Submitted = false;
             TextBoxFrame.Enabled = true;
             TextBoxFrame.Focus();
             Adjusted = 0;
         }
 
+        public override void OnVisualTimerStart() {
+        }
+
         public override void OnTimerStop() {
             Submitted = false;
-            FlowTimer.MainForm.LabelTimer.Text = 0.0.ToFormattedString();
-            TextBoxFrame.Text = "";
             TextBoxFrame.Enabled = false;
+            TextBoxFrame.Text = "";
             EnableControls(true);
-            CurrentOffset = double.MaxValue;
-            Submitted = false;
+            FlowTimer.MainForm.LabelTimer.Text = 0.0.ToFormattedString();
+            FlowTimer.MainForm.LabelTimer.Focus();
         }
 
         public override void OnKeyEvent(Keys key) {
             if(FlowTimer.Settings.AddFrame.IsPressed(key) && FlowTimer.MainForm.ButtonPlus.Enabled) {
-                ChangeAudio(true);
+                ChangeAudio(1);
             } else if(FlowTimer.Settings.SubFrame.IsPressed(key) && FlowTimer.MainForm.ButtonMinus.Enabled) {
-                ChangeAudio(false);
+                ChangeAudio(-1);
+            } else if(FlowTimer.Settings.Undo.IsPressed(key) && FlowTimer.MainForm.ButtonUndo.Enabled) {
+                Undo();
             }
         }
 
@@ -101,6 +107,7 @@ namespace FlowTimer {
             TimerError error = GetVariableInfo(out Info);
             double currentTime = double.Parse(FlowTimer.MainForm.LabelTimer.Text);
             FlowTimer.MainForm.ButtonSubmit.Enabled = error == TimerError.NoError && !Submitted && FlowTimer.IsTimerRunning && Info.Frame / Info.FPS + Info.Offset / 1000.0f >= currentTime + (Info.Interval * (Info.NumBeeps - 1) / 1000.0f);
+            FlowTimer.MainForm.ButtonUndo.Enabled = Submitted && FlowTimer.IsTimerRunning;
 
             bool canAdjust = Submitted && currentTime < CurrentOffset - Info.Interval * (Info.NumBeeps - 1) / 1000.0f - 0.05;
             FlowTimer.MainForm.ButtonPlus.Enabled = canAdjust;
@@ -120,10 +127,27 @@ namespace FlowTimer {
             FlowTimer.MainForm.TextBoxFrame.Enabled = false;
         }
 
-        public void ChangeAudio(bool lengthen) {
+        public void Undo() {
+            Submitted = false;
+            EnableControls(true);
+            CurrentOffset = double.MaxValue;
+            Adjusted = 0;
             FlowTimer.AudioContext.ClearQueuedAudio();
-            double amount = 1000.0 / Info.FPS;
-            if(!lengthen) amount *= -1;
+
+            new Thread(() => {
+                Thread.Sleep(50);
+                MethodInvoker inv = delegate {
+                    FlowTimer.MainForm.TextBoxFrame.Text = "";
+                    FlowTimer.MainForm.TextBoxFrame.Enabled = true;
+                    FlowTimer.MainForm.TextBoxFrame.Focus();
+                };
+                FlowTimer.MainForm.Invoke(inv);
+            }).Start();
+        }
+
+        public void ChangeAudio(int numFrames) {
+            FlowTimer.AudioContext.ClearQueuedAudio();
+            double amount = numFrames * 1000.0 / Info.FPS;
             Adjusted += amount;
             Submit();
 

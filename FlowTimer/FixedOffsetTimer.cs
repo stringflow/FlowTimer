@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Drawing;
 
 namespace FlowTimer {
-    
+
     public class FixedOffsetTimer : BaseTimer {
 
         public Button ButtonAdd;
@@ -42,12 +42,18 @@ namespace FlowTimer {
 
         public override void OnTimerStart() {
             FlowTimer.AudioContext.QueueAudio(FlowTimer.PCM);
+
+            SelectedTimer.GetTimerInfo(out TimerInfo info);
+            FlowTimer.MaxOffset = info.MaxOffset;
+        }
+
+        public override void OnVisualTimerStart() {
             EnableControls(false);
         }
 
         public override void OnTimerStop() {
-            EnableControls(true);
             SelectTimer(SelectedTimer);
+            EnableControls(true);
         }
 
         public override void OnKeyEvent(Keys key) {
@@ -130,7 +136,7 @@ namespace FlowTimer {
 
             if(error == TimerError.NoError) {
                 FlowTimer.UpdatePCM(Array.ConvertAll(timerInfo.Offsets, x => (double) x), timerInfo.Interval, timerInfo.NumBeeps);
-                FlowTimer.MainForm.LabelTimer.Text = (timerInfo.MaxOffset / 1000.0).ToFormattedString();
+                if(!FlowTimer.IsTimerRunning) FlowTimer.MainForm.LabelTimer.Text = (timerInfo.MaxOffset / 1000.0).ToFormattedString();
                 controls.ForEach(control => control.Enabled = true);
             } else {
                 FlowTimer.MainForm.LabelTimer.Text = "Error";
