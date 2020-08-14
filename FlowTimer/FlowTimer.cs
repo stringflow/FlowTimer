@@ -58,7 +58,17 @@ namespace FlowTimer {
             Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.InvariantCulture;
             Win32.InitTiming();
 
-            Settings = File.Exists(SettingsFile) ? JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile)) : new Settings();
+            if(File.Exists(SettingsFile)) {
+                try {
+                    Settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(SettingsFile));
+                } catch(Exception e) {
+                    MessageBox.Show("The settings could not be loaded and have been reset to their default values.\n" + e.Source + ": " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            if(Settings == null) {
+                Settings = new Settings();
+            }
 
             PinSheet = new SpriteSheet(new Bitmap(FileSystem.ReadPackedResourceStream("FlowTimer.Resources.pin.png")), 16, 16);
             Pin(Settings.Pinned);
@@ -351,7 +361,7 @@ namespace FlowTimer {
         public static void AdjustBeepSoundVolume(int newVolume) {
             float vol = newVolume / 100.0f;
             BeepSound = new byte[BeepSoundUnadjusted.Length];
-            for(int i = 0; i < BeepSound.Length; i+= 2) {
+            for(int i = 0; i < BeepSound.Length; i += 2) {
                 short sample = (short) (BeepSoundUnadjusted[i] | (BeepSoundUnadjusted[i + 1] << 8));
                 float floatSample = sample;
 
@@ -361,7 +371,7 @@ namespace FlowTimer {
                 if(floatSample > short.MaxValue) floatSample = short.MaxValue;
 
                 sample = (short) floatSample;
-                BeepSound[i]     = (byte) (sample & 0xFF);
+                BeepSound[i] = (byte) (sample & 0xFF);
                 BeepSound[i + 1] = (byte) (sample >> 8);
             }
 
