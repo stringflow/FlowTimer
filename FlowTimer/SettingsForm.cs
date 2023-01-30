@@ -13,11 +13,20 @@ namespace FlowTimer {
 
             FlowTimer.Settings.Start.SetControls(ButtonStartPrimary, ButtonStartSecondary, ButtonStartClear, CheckBoxStartGlobal);
             FlowTimer.Settings.Stop.SetControls(ButtonStopPrimary, ButtonStopSecondary, ButtonStopClear, CheckBoxStopGlobal);
+            FlowTimer.Settings.Play.SetControls(ButtonPlayPrimary, ButtonPlaySecondary, ButtonPlayClear, CheckBoxPlayGlobal);
             FlowTimer.Settings.Undo.SetControls(ButtonUndoPrimary, ButtonUndoSecondary, ButtonUndoClear, CheckBoxUndoGlobal);
             FlowTimer.Settings.Up.SetControls(ButtonUpPrimary, ButtonUpSecondary, ButtonUpClear, CheckBoxUpGlobal);
             FlowTimer.Settings.Down.SetControls(ButtonDownPrimary, ButtonDownSecondary, ButtonDownClear, CheckBoxDownGlobal);
             FlowTimer.Settings.AddFrame.SetControls(ButtonAddFramePrimary, ButtonAddFrameSecondary, ButtonAddFrameClear, CheckBoxAddFrameGlobal);
             FlowTimer.Settings.SubFrame.SetControls(ButtonSubFramePrimary, ButtonSubFrameSecondary, ButtonSubFrameClear, CheckBoxSubFrameGlobal);
+            FlowTimer.Settings.Add2.SetControls(ButtonAdd2Primary, ButtonAdd2Secondary, ButtonAdd2Clear, CheckBoxAdd2Global);
+            FlowTimer.Settings.Sub2.SetControls(ButtonSub2Primary, ButtonSub2Secondary, ButtonSub2Clear, CheckBoxSub2Global);
+            FlowTimer.Settings.Add3.SetControls(ButtonAdd3Primary, ButtonAdd3Secondary, ButtonAdd3Clear, CheckBoxAdd3Global);
+            FlowTimer.Settings.Sub3.SetControls(ButtonSub3Primary, ButtonSub3Secondary, ButtonSub3Clear, CheckBoxSub3Global);
+            FlowTimer.Settings.Add4.SetControls(ButtonAdd4Primary, ButtonAdd4Secondary, ButtonAdd4Clear, CheckBoxAdd4Global);
+            FlowTimer.Settings.Sub4.SetControls(ButtonSub4Primary, ButtonSub4Secondary, ButtonSub4Clear, CheckBoxSub4Global);
+            FlowTimer.Settings.Add5.SetControls(ButtonAdd5Primary, ButtonAdd5Secondary, ButtonAdd5Clear, CheckBoxAdd5Global);
+            FlowTimer.Settings.Sub5.SetControls(ButtonSub5Primary, ButtonSub5Secondary, ButtonSub5Clear, CheckBoxSub5Global);
 
             foreach(string file in Directory.GetFiles(FlowTimer.Beeps, "*.wav")) {
                 ComboBoxBeep.Items.Add(Path.GetFileNameWithoutExtension(file));

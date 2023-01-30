@@ -29,6 +29,7 @@ namespace FlowTimer {
         public static List<BaseTimer> TimerTabs;
         public static FixedOffsetTimer FixedOffset;
         public static VariableOffsetTimer VariableOffset;
+        public static IGTTracking IGTTracking;
         public static BaseTimer CurrentTab {
             get { return TimerTabs[MainForm.TabControl.SelectedIndex]; }
         }
@@ -98,8 +99,14 @@ namespace FlowTimer {
 
         public static void Destroy() {
             if(FixedOffset.HaveTimersChanged()) {
-                if(MessageBox.Show("You've changed your timers without saving. Would you like to save your timers?", "Save timers?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                if(MessageBox.Show("[Fixed Offset] You've changed your timers without saving. Would you like to save your timers?", "Save timers?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                     FixedOffset.SaveTimers(Settings.LastLoadedTimers, true);
+                }
+            }
+            IGTTracking.SaveDelayersFile();
+            if(IGTTracking.HaveTimersChanged()) {
+                if(MessageBox.Show("[IGT Tracking] You've changed your timers without saving. Would you like to save your timers?", "Save timers?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    IGTTracking.SaveTimers(Settings.LastLoadedIGTTimers, true);
                 }
             }
 
@@ -172,11 +179,12 @@ namespace FlowTimer {
             return CallNextHookEx(KeyboardHook, nCode, wParam, lParam);
         }
 
-        public static void RegisterTabs(TabPage fixedOffset, TabPage variableOffset) {
+        public static void RegisterTabs(TabPage fixedOffset, TabPage variableOffset, TabPage TabPageIGTTracking) {
             Control[] copyControls = { MainForm.ButtonStart, MainForm.ButtonStop, MainForm.ButtonSettings, MainForm.LabelTimer, MainForm.PictureBoxPin };
             FixedOffset = new FixedOffsetTimer(fixedOffset, copyControls);
             VariableOffset = new VariableOffsetTimer(variableOffset, copyControls);
-            TimerTabs = new List<BaseTimer>() { FixedOffset, VariableOffset };
+            IGTTracking = new IGTTracking(TabPageIGTTracking, copyControls);
+            TimerTabs = new List<BaseTimer>() { FixedOffset, VariableOffset, IGTTracking };
         }
 
         public static void TabControl_Selected(object sender, TabControlEventArgs e) {

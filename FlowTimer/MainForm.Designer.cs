@@ -38,6 +38,7 @@
             this.TabControl = new System.Windows.Forms.TabControl();
             this.TabPageFixedOffset = new System.Windows.Forms.TabPage();
             this.TabPageVariableOffset = new System.Windows.Forms.TabPage();
+            this.ButtonUndo = new System.Windows.Forms.Button();
             this.ButtonMinus = new System.Windows.Forms.Button();
             this.ButtonPlus = new System.Windows.Forms.Button();
             this.ComboBoxFPS = new System.Windows.Forms.ComboBox();
@@ -51,11 +52,26 @@
             this.LabelFPS = new System.Windows.Forms.Label();
             this.LabelFrame = new System.Windows.Forms.Label();
             this.TextBoxFrame = new System.Windows.Forms.TextBox();
-            this.ButtonUndo = new System.Windows.Forms.Button();
+            this.TabPageIGTTracking = new System.Windows.Forms.TabPage();
+            this.ButtonAdd3 = new System.Windows.Forms.Button();
+            this.ButtonSaveTimers3 = new System.Windows.Forms.Button();
+            this.ButtonLoadTimers3 = new System.Windows.Forms.Button();
+            this.ButtonUndoPlay = new System.Windows.Forms.Button();
+            this.ComboBoxGame = new System.Windows.Forms.ComboBox();
+            this.ComboBoxFPS3 = new System.Windows.Forms.ComboBox();
+            this.ButtonPlay = new System.Windows.Forms.Button();
+            this.LabelBeeps3 = new System.Windows.Forms.Label();
+            this.LabelInterval3 = new System.Windows.Forms.Label();
+            this.LabelGame = new System.Windows.Forms.Label();
+            this.LabelOffset3 = new System.Windows.Forms.Label();
+            this.LabelFPS3 = new System.Windows.Forms.Label();
+            this.LabelName3 = new System.Windows.Forms.Label();
+            this.LabelFrame3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxPin)).BeginInit();
             this.TabControl.SuspendLayout();
             this.TabPageFixedOffset.SuspendLayout();
             this.TabPageVariableOffset.SuspendLayout();
+            this.TabPageIGTTracking.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelTimer
@@ -183,6 +199,7 @@
             // 
             this.TabControl.Controls.Add(this.TabPageFixedOffset);
             this.TabControl.Controls.Add(this.TabPageVariableOffset);
+            this.TabControl.Controls.Add(this.TabPageIGTTracking);
             this.TabControl.Location = new System.Drawing.Point(-3, 0);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
@@ -234,6 +251,16 @@
             this.TabPageVariableOffset.Size = new System.Drawing.Size(528, 224);
             this.TabPageVariableOffset.TabIndex = 1;
             this.TabPageVariableOffset.Text = "Variable Offset";
+            // 
+            // ButtonUndo
+            // 
+            this.ButtonUndo.Location = new System.Drawing.Point(326, 38);
+            this.ButtonUndo.Name = "ButtonUndo";
+            this.ButtonUndo.Size = new System.Drawing.Size(80, 22);
+            this.ButtonUndo.TabIndex = 14;
+            this.ButtonUndo.Text = "Undo";
+            this.ButtonUndo.UseVisualStyleBackColor = true;
+            this.ButtonUndo.Click += new System.EventHandler(this.ButtonUndo_Click);
             // 
             // ButtonMinus
             // 
@@ -360,15 +387,173 @@
             this.TextBoxFrame.TabIndex = 0;
             this.TextBoxFrame.TextChanged += new System.EventHandler(this.VariableTimer_DataChange);
             // 
-            // ButtonUndo
+            // TabPageIGTTracking
             // 
-            this.ButtonUndo.Location = new System.Drawing.Point(326, 38);
-            this.ButtonUndo.Name = "ButtonUndo";
-            this.ButtonUndo.Size = new System.Drawing.Size(80, 22);
-            this.ButtonUndo.TabIndex = 14;
-            this.ButtonUndo.Text = "Undo";
-            this.ButtonUndo.UseVisualStyleBackColor = true;
-            this.ButtonUndo.Click += new System.EventHandler(this.ButtonUndo_Click);
+            this.TabPageIGTTracking.BackColor = System.Drawing.SystemColors.Control;
+            this.TabPageIGTTracking.Controls.Add(this.ButtonAdd3);
+            this.TabPageIGTTracking.Controls.Add(this.ButtonSaveTimers3);
+            this.TabPageIGTTracking.Controls.Add(this.ButtonLoadTimers3);
+            this.TabPageIGTTracking.Controls.Add(this.ButtonUndoPlay);
+            this.TabPageIGTTracking.Controls.Add(this.ComboBoxGame);
+            this.TabPageIGTTracking.Controls.Add(this.ComboBoxFPS3);
+            this.TabPageIGTTracking.Controls.Add(this.ButtonPlay);
+            this.TabPageIGTTracking.Controls.Add(this.LabelBeeps3);
+            this.TabPageIGTTracking.Controls.Add(this.LabelInterval3);
+            this.TabPageIGTTracking.Controls.Add(this.LabelGame);
+            this.TabPageIGTTracking.Controls.Add(this.LabelOffset3);
+            this.TabPageIGTTracking.Controls.Add(this.LabelFPS3);
+            this.TabPageIGTTracking.Controls.Add(this.LabelName3);
+            this.TabPageIGTTracking.Controls.Add(this.LabelFrame3);
+            this.TabPageIGTTracking.Location = new System.Drawing.Point(4, 22);
+            this.TabPageIGTTracking.Name = "TabPageIGTTracking";
+            this.TabPageIGTTracking.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageIGTTracking.Size = new System.Drawing.Size(528, 224);
+            this.TabPageIGTTracking.TabIndex = 2;
+            this.TabPageIGTTracking.Text = "IGT Tracking";
+            // 
+            // ButtonAdd3
+            // 
+            this.ButtonAdd3.Location = new System.Drawing.Point(0, 0);
+            this.ButtonAdd3.Name = "ButtonAdd3";
+            this.ButtonAdd3.Size = new System.Drawing.Size(67, 23);
+            this.ButtonAdd3.TabIndex = 33;
+            this.ButtonAdd3.TabStop = false;
+            this.ButtonAdd3.Text = "Add";
+            this.ButtonAdd3.UseVisualStyleBackColor = true;
+            this.ButtonAdd3.Click += new System.EventHandler(this.ButtonAdd3_Click);
+            // 
+            // ButtonSaveTimers3
+            // 
+            this.ButtonSaveTimers3.Location = new System.Drawing.Point(12, 169);
+            this.ButtonSaveTimers3.Name = "ButtonSaveTimers3";
+            this.ButtonSaveTimers3.Size = new System.Drawing.Size(121, 25);
+            this.ButtonSaveTimers3.TabIndex = 35;
+            this.ButtonSaveTimers3.TabStop = false;
+            this.ButtonSaveTimers3.Text = "Save Timers";
+            this.ButtonSaveTimers3.UseVisualStyleBackColor = true;
+            this.ButtonSaveTimers3.Click += new System.EventHandler(this.ButtonSaveTimers3_Click);
+            // 
+            // ButtonLoadTimers3
+            // 
+            this.ButtonLoadTimers3.Location = new System.Drawing.Point(12, 141);
+            this.ButtonLoadTimers3.Name = "ButtonLoadTimers3";
+            this.ButtonLoadTimers3.Size = new System.Drawing.Size(121, 25);
+            this.ButtonLoadTimers3.TabIndex = 34;
+            this.ButtonLoadTimers3.TabStop = false;
+            this.ButtonLoadTimers3.Text = "Load Timers";
+            this.ButtonLoadTimers3.UseVisualStyleBackColor = true;
+            this.ButtonLoadTimers3.Click += new System.EventHandler(this.ButtonLoadTimers3_Click);
+            // 
+            // ButtonUndoPlay
+            // 
+            this.ButtonUndoPlay.Location = new System.Drawing.Point(407, 114);
+            this.ButtonUndoPlay.Name = "ButtonUndoPlay";
+            this.ButtonUndoPlay.Size = new System.Drawing.Size(80, 22);
+            this.ButtonUndoPlay.TabIndex = 14;
+            this.ButtonUndoPlay.Text = "Undo";
+            this.ButtonUndoPlay.UseVisualStyleBackColor = true;
+            this.ButtonUndoPlay.Click += new System.EventHandler(this.ButtonUndoPlay_Click);
+            // 
+            // ComboBoxGame
+            // 
+            this.ComboBoxGame.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxGame.FormattingEnabled = true;
+            this.ComboBoxGame.Location = new System.Drawing.Point(407, 35);
+            this.ComboBoxGame.Name = "ComboBoxGame";
+            this.ComboBoxGame.Size = new System.Drawing.Size(80, 21);
+            this.ComboBoxGame.TabIndex = 11;
+            this.ComboBoxGame.SelectedIndexChanged += new System.EventHandler(this.ComboBoxFPS3_DataChange);
+            // 
+            // ComboBoxFPS3
+            // 
+            this.ComboBoxFPS3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxFPS3.FormattingEnabled = true;
+            this.ComboBoxFPS3.Items.AddRange(new object[] {
+            "59.7275",
+            "59.6555",
+            "59.8261",
+            "60.0",
+            "30.0",
+            "25.0",
+            "15.0"});
+            this.ComboBoxFPS3.Location = new System.Drawing.Point(407, 62);
+            this.ComboBoxFPS3.Name = "ComboBoxFPS3";
+            this.ComboBoxFPS3.Size = new System.Drawing.Size(80, 21);
+            this.ComboBoxFPS3.TabIndex = 11;
+            this.ComboBoxFPS3.SelectedIndexChanged += new System.EventHandler(this.ComboBoxFPS3_DataChange);
+            // 
+            // ButtonPlay
+            // 
+            this.ButtonPlay.Location = new System.Drawing.Point(407, 88);
+            this.ButtonPlay.Name = "ButtonPlay";
+            this.ButtonPlay.Size = new System.Drawing.Size(80, 22);
+            this.ButtonPlay.TabIndex = 10;
+            this.ButtonPlay.Text = "Play";
+            this.ButtonPlay.UseVisualStyleBackColor = true;
+            this.ButtonPlay.Click += new System.EventHandler(this.ButtonPlay_Click);
+            // 
+            // LabelBeeps3
+            // 
+            this.LabelBeeps3.AutoSize = true;
+            this.LabelBeeps3.Location = new System.Drawing.Point(401, 144);
+            this.LabelBeeps3.Name = "LabelBeeps3";
+            this.LabelBeeps3.Size = new System.Drawing.Size(37, 13);
+            this.LabelBeeps3.TabIndex = 9;
+            this.LabelBeeps3.Text = "Beeps";
+            // 
+            // LabelInterval3
+            // 
+            this.LabelInterval3.AutoSize = true;
+            this.LabelInterval3.Location = new System.Drawing.Point(346, 144);
+            this.LabelInterval3.Name = "LabelInterval3";
+            this.LabelInterval3.Size = new System.Drawing.Size(42, 13);
+            this.LabelInterval3.TabIndex = 7;
+            this.LabelInterval3.Text = "Interval";
+            // 
+            // LabelGame
+            // 
+            this.LabelGame.AutoSize = true;
+            this.LabelGame.Location = new System.Drawing.Point(368, 38);
+            this.LabelGame.Name = "LabelGame";
+            this.LabelGame.Size = new System.Drawing.Size(38, 13);
+            this.LabelGame.TabIndex = 3;
+            this.LabelGame.Text = "Game:";
+            // 
+            // LabelOffset3
+            // 
+            this.LabelOffset3.AutoSize = true;
+            this.LabelOffset3.Location = new System.Drawing.Point(276, 144);
+            this.LabelOffset3.Name = "LabelOffset3";
+            this.LabelOffset3.Size = new System.Drawing.Size(35, 13);
+            this.LabelOffset3.TabIndex = 5;
+            this.LabelOffset3.Text = "Offset";
+            // 
+            // LabelFPS3
+            // 
+            this.LabelFPS3.AutoSize = true;
+            this.LabelFPS3.Location = new System.Drawing.Point(368, 65);
+            this.LabelFPS3.Name = "LabelFPS3";
+            this.LabelFPS3.Size = new System.Drawing.Size(30, 13);
+            this.LabelFPS3.TabIndex = 3;
+            this.LabelFPS3.Text = "FPS:";
+            // 
+            // LabelName3
+            // 
+            this.LabelName3.AutoSize = true;
+            this.LabelName3.Location = new System.Drawing.Point(161, 144);
+            this.LabelName3.Name = "LabelName3";
+            this.LabelName3.Size = new System.Drawing.Size(35, 13);
+            this.LabelName3.TabIndex = 1;
+            this.LabelName3.Text = "Name";
+            // 
+            // LabelFrame3
+            // 
+            this.LabelFrame3.AutoSize = true;
+            this.LabelFrame3.Location = new System.Drawing.Point(231, 144);
+            this.LabelFrame3.Name = "LabelFrame3";
+            this.LabelFrame3.Size = new System.Drawing.Size(36, 13);
+            this.LabelFrame3.TabIndex = 1;
+            this.LabelFrame3.Text = "Frame";
             // 
             // MainForm
             // 
@@ -386,6 +571,8 @@
             this.TabPageFixedOffset.PerformLayout();
             this.TabPageVariableOffset.ResumeLayout(false);
             this.TabPageVariableOffset.PerformLayout();
+            this.TabPageIGTTracking.ResumeLayout(false);
+            this.TabPageIGTTracking.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -407,19 +594,34 @@
         public System.Windows.Forms.TabControl TabControl;
         private System.Windows.Forms.TabPage TabPageFixedOffset;
         private System.Windows.Forms.TabPage TabPageVariableOffset;
+        private System.Windows.Forms.TabPage TabPageIGTTracking;
         public System.Windows.Forms.TextBox TextBoxFrame;
         public System.Windows.Forms.Label LabelFrame;
+        public System.Windows.Forms.Label LabelFrame3;
         public System.Windows.Forms.Label LabelBeeps2;
+        public System.Windows.Forms.Label LabelBeeps3;
         public System.Windows.Forms.TextBox TextBoxBeeps;
         public System.Windows.Forms.Label LabelInterval2;
+        public System.Windows.Forms.Label LabelInterval3;
         public System.Windows.Forms.TextBox TextBoxInterval;
         public System.Windows.Forms.Label LabelOffset2;
+        public System.Windows.Forms.Label LabelOffset3;
         public System.Windows.Forms.TextBox TextBoxOffset;
         public System.Windows.Forms.Label LabelFPS;
+        public System.Windows.Forms.Label LabelFPS3;
         public System.Windows.Forms.Button ButtonSubmit;
+        public System.Windows.Forms.Button ButtonPlay;
         public System.Windows.Forms.ComboBox ComboBoxFPS;
+        public System.Windows.Forms.ComboBox ComboBoxFPS3;
         public System.Windows.Forms.Button ButtonMinus;
         public System.Windows.Forms.Button ButtonPlus;
         public System.Windows.Forms.Button ButtonUndo;
+        public System.Windows.Forms.Button ButtonUndoPlay;
+        public System.Windows.Forms.Label LabelName3;
+        public System.Windows.Forms.Button ButtonAdd3;
+        public System.Windows.Forms.Button ButtonSaveTimers3;
+        public System.Windows.Forms.Button ButtonLoadTimers3;
+        public System.Windows.Forms.ComboBox ComboBoxGame;
+        public System.Windows.Forms.Label LabelGame;
     }
 }
