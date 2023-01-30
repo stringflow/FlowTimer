@@ -105,7 +105,7 @@ namespace FlowTimer {
 
         public void OnDataChange() {
             TimerError error = GetVariableInfo(out Info);
-            double currentTime = double.Parse(FlowTimer.MainForm.LabelTimer.Text);
+            double currentTime = error == TimerError.NoError ? double.Parse(FlowTimer.MainForm.LabelTimer.Text) : 0;
             FlowTimer.MainForm.ButtonSubmit.Enabled = error == TimerError.NoError && !Submitted && FlowTimer.IsTimerRunning && Info.Frame / Info.FPS + Info.Offset / 1000.0f >= currentTime + (Info.Interval * (Info.NumBeeps - 1) / 1000.0f);
             FlowTimer.MainForm.ButtonUndo.Enabled = Submitted && FlowTimer.IsTimerRunning;
 

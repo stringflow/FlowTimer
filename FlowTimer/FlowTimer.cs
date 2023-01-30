@@ -52,6 +52,7 @@ namespace FlowTimer {
 
         public static Proc KeyboardCallback;
         public static IntPtr KeyboardHook;
+        private static int[] LastKeyEvent = new int[256];
 
         public static void Init() {
             Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
@@ -155,10 +156,10 @@ namespace FlowTimer {
         }
 
         private static IntPtr Keycallback(int nCode, int wParam, IntPtr lParam) {
-            if(SettingsForm == null || !SettingsForm.Visible) {
-                if(nCode >= 0 && Settings.KeyMethod.IsActivatedByEvent(wParam)) {
-                    Keys key = (Keys) Marshal.ReadInt32(lParam);
+            if((SettingsForm == null || !SettingsForm.Visible) && nCode >= 0) {
+                Keys key = (Keys) Marshal.ReadInt32(lParam);
 
+                if(Settings.KeyMethod.IsActivatedByEvent(wParam) && wParam != LastKeyEvent[(int) key]) {
                     if(Settings.Start.IsPressed(key)) {
                         StartTimer();
                     } else if(Settings.Stop.IsPressed(key)) {
@@ -167,6 +168,7 @@ namespace FlowTimer {
 
                     CurrentTab.OnKeyEvent(key);
                 }
+                LastKeyEvent[(int) key] = wParam;
             }
 
             return CallNextHookEx(KeyboardHook, nCode, wParam, lParam);
@@ -264,16 +266,18 @@ namespace FlowTimer {
         }
 
         public static void StopTimer(bool timerExpired) {
-            if(!timerExpired) {
-                AudioContext.ClearQueuedAudio();
-                TimerUpdateThread.AbortIfAlive();
-            }
+            if(IsTimerRunning) {
+                if(!timerExpired) {
+                    AudioContext.ClearQueuedAudio();
+                    TimerUpdateThread.AbortIfAlive();
+                }
 
-            IsTimerRunning = false;
-            CurrentTab.OnTimerStop();
-            EnableControls(true);
-            LockedTab = null;
-            VariableOffset.OnDataChange();
+                IsTimerRunning = false;
+                CurrentTab.OnTimerStop();
+                EnableControls(true);
+                LockedTab = null;
+                VariableOffset.OnDataChange();
+            }
         }
 
         private static void TimerUpdateCallback() {
@@ -303,6 +307,7 @@ namespace FlowTimer {
         public static void OpenSettingsForm() {
             SettingsForm = new SettingsForm();
             SettingsForm.TopMost = Settings.Pinned;
+            SettingsForm.StartPosition = FormStartPosition.CenterParent;
             SettingsForm.RemoveKeyControls();
             SettingsForm.ShowDialog(MainForm);
         }
