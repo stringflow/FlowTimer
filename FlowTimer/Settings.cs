@@ -9,15 +9,25 @@ namespace FlowTimer {
 
         public Hotkey Start = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Stop  = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Play  = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Undo  = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Up    = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Down  = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey AddFrame = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey SubFrame = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Add2 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Sub2 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Add3 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Sub3 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Add4 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Sub4 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Add5 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Sub5 = new Hotkey(Keys.None, Keys.None, false);
         public KeyMethod KeyMethod = KeyMethod.OnPress;
         public string Beep = "ping1";
         public bool Pinned = false;
         public string LastLoadedTimers = null;
+        public string LastLoadedIGTTimers = null;
         public bool AutoUpdate = false;
         public int Volume = 100;
 
@@ -41,6 +51,8 @@ namespace FlowTimer {
         public string VariableOffset = "0";
         public string VariableInterval = "500";
         public string VariableNumBeeps = "5";
+        public string IGTFPS = "59.7275";
+        public string IGTGame = null;
     }
 
     public class Hotkey {
