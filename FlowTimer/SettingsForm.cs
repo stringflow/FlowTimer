@@ -7,26 +7,47 @@ namespace FlowTimer {
     public partial class SettingsForm : Form {
 
         public static bool UpdateFound;
+        private int SizeKeybinds = 0;
 
         public SettingsForm() {
             InitializeComponent();
 
-            FlowTimer.Settings.Start.SetControls(ButtonStartPrimary, ButtonStartSecondary, ButtonStartClear, CheckBoxStartGlobal);
-            FlowTimer.Settings.Stop.SetControls(ButtonStopPrimary, ButtonStopSecondary, ButtonStopClear, CheckBoxStopGlobal);
-            FlowTimer.Settings.Play.SetControls(ButtonPlayPrimary, ButtonPlaySecondary, ButtonPlayClear, CheckBoxPlayGlobal);
-            FlowTimer.Settings.Undo.SetControls(ButtonUndoPrimary, ButtonUndoSecondary, ButtonUndoClear, CheckBoxUndoGlobal);
-            FlowTimer.Settings.Up.SetControls(ButtonUpPrimary, ButtonUpSecondary, ButtonUpClear, CheckBoxUpGlobal);
-            FlowTimer.Settings.Down.SetControls(ButtonDownPrimary, ButtonDownSecondary, ButtonDownClear, CheckBoxDownGlobal);
-            FlowTimer.Settings.AddFrame.SetControls(ButtonAddFramePrimary, ButtonAddFrameSecondary, ButtonAddFrameClear, CheckBoxAddFrameGlobal);
-            FlowTimer.Settings.SubFrame.SetControls(ButtonSubFramePrimary, ButtonSubFrameSecondary, ButtonSubFrameClear, CheckBoxSubFrameGlobal);
-            FlowTimer.Settings.Add2.SetControls(ButtonAdd2Primary, ButtonAdd2Secondary, ButtonAdd2Clear, CheckBoxAdd2Global);
-            FlowTimer.Settings.Sub2.SetControls(ButtonSub2Primary, ButtonSub2Secondary, ButtonSub2Clear, CheckBoxSub2Global);
-            FlowTimer.Settings.Add3.SetControls(ButtonAdd3Primary, ButtonAdd3Secondary, ButtonAdd3Clear, CheckBoxAdd3Global);
-            FlowTimer.Settings.Sub3.SetControls(ButtonSub3Primary, ButtonSub3Secondary, ButtonSub3Clear, CheckBoxSub3Global);
-            FlowTimer.Settings.Add4.SetControls(ButtonAdd4Primary, ButtonAdd4Secondary, ButtonAdd4Clear, CheckBoxAdd4Global);
-            FlowTimer.Settings.Sub4.SetControls(ButtonSub4Primary, ButtonSub4Secondary, ButtonSub4Clear, CheckBoxSub4Global);
-            FlowTimer.Settings.Add5.SetControls(ButtonAdd5Primary, ButtonAdd5Secondary, ButtonAdd5Clear, CheckBoxAdd5Global);
-            FlowTimer.Settings.Sub5.SetControls(ButtonSub5Primary, ButtonSub5Secondary, ButtonSub5Clear, CheckBoxSub5Global);
+            int tab = FlowTimer.MainForm.TabControl.SelectedIndex + 1;
+
+            AddKeybindSetting("Start", FlowTimer.Settings.Start);
+            AddKeybindSetting("Stop", FlowTimer.Settings.Stop);
+            if(tab == 3) AddKeybindSetting("Play", FlowTimer.Settings.Play);
+            if(tab == 2 || tab == 3) AddKeybindSetting("Undo", FlowTimer.Settings.Undo);
+            if(tab == 1 || tab == 3) AddKeybindSetting("Up", FlowTimer.Settings.Up);
+            if(tab == 1 || tab == 3) AddKeybindSetting("Down", FlowTimer.Settings.Down);
+            if(tab == 2) AddKeybindSetting("+Frame", FlowTimer.Settings.AddFrame);
+            if(tab == 2) AddKeybindSetting("-Frame", FlowTimer.Settings.SubFrame);
+            if(tab == 3) AddKeybindSetting("+  (1)", FlowTimer.Settings.AddFrame);
+            if(tab == 3) AddKeybindSetting("-   (1)", FlowTimer.Settings.SubFrame);
+            if(tab == 3) AddKeybindSetting("+  (2)", FlowTimer.Settings.Add2);
+            if(tab == 3) AddKeybindSetting("-   (2)", FlowTimer.Settings.Sub2);
+            if(tab == 3) AddKeybindSetting("+  (3)", FlowTimer.Settings.Add3);
+            if(tab == 3) AddKeybindSetting("-   (3)", FlowTimer.Settings.Sub3);
+            if(tab == 3) AddKeybindSetting("+  (4)", FlowTimer.Settings.Add4);
+            if(tab == 3) AddKeybindSetting("-   (4)", FlowTimer.Settings.Sub4);
+            if(tab == 3) AddKeybindSetting("+  (5)", FlowTimer.Settings.Add5);
+            if(tab == 3) AddKeybindSetting("-   (5)", FlowTimer.Settings.Sub5);
+            if(tab == 3) AddKeybindSetting("+  (6)", FlowTimer.Settings.Add6);
+            if(tab == 3) AddKeybindSetting("-   (6)", FlowTimer.Settings.Sub6);
+
+            LabelBeep.Top = SizeKeybinds + 14;
+            ComboBoxBeep.Top = SizeKeybinds + 10;
+            ButtonImportBeep.Top = SizeKeybinds + 9;
+            LabelVolume.Top = SizeKeybinds + 38;
+            TrackBarVolume.Top = SizeKeybinds + 37;
+            TextBoxVolume.Top = SizeKeybinds + 36;
+            LabelKey.Top = SizeKeybinds + 65;
+            ComboBoxKey.Top = SizeKeybinds + 62;
+
+            Size = new System.Drawing.Size {
+                Width = Size.Width,
+                Height = SizeKeybinds + 128
+            };
 
             foreach(string file in Directory.GetFiles(FlowTimer.Beeps, "*.wav")) {
                 ComboBoxBeep.Items.Add(Path.GetFileNameWithoutExtension(file));
@@ -47,6 +68,58 @@ namespace FlowTimer {
             TextBoxVolume.KeyPress += TextBoxVolume_KeyPress;
             TextBoxVolume.TextChanged += TextBoxVolume_TextChanged;
             ComboBoxKey.SelectedIndexChanged += ComboBoxKey_SelectedIndexChanged;
+        }
+
+        private void AddKeybindSetting(string name, Hotkey hotkey) {
+
+            Label Label = new Label {
+                AutoSize = true,
+                Location = new System.Drawing.Point(5, SizeKeybinds + 12),
+                Size = new System.Drawing.Size(32, 13),
+                TabIndex = 0,
+                Text = name + ":"
+            };
+            Controls.Add(Label);
+
+            Button ButtonPrimary = new Button {
+                Location = new System.Drawing.Point(51, SizeKeybinds + 7),
+                Size = new System.Drawing.Size(75, 23),
+                TabIndex = 1,
+                Text = "Unset",
+                UseVisualStyleBackColor = true
+            };
+            Controls.Add(ButtonPrimary);
+
+            Button ButtonSecondary = new Button {
+                Location = new System.Drawing.Point(129, SizeKeybinds + 7),
+                Size = new System.Drawing.Size(75, 23),
+                TabIndex = 2,
+                Text = "Unset",
+                UseVisualStyleBackColor = true
+            };
+            Controls.Add(ButtonSecondary);
+
+            Button ButtonClear = new Button {
+                Location = new System.Drawing.Point(207, SizeKeybinds + 7),
+                Size = new System.Drawing.Size(75, 23),
+                TabIndex = 3,
+                Text = "Clear",
+                UseVisualStyleBackColor = true
+            };
+            Controls.Add(ButtonClear);
+
+            CheckBox CheckBoxGlobal = new CheckBox {
+                AutoSize = true,
+                Location = new System.Drawing.Point(289, SizeKeybinds + 11),
+                Size = new System.Drawing.Size(56, 17),
+                TabIndex = 4,
+                Text = "Global",
+                UseVisualStyleBackColor = true
+            };
+            Controls.Add(CheckBoxGlobal);
+            SizeKeybinds += 26;
+
+            hotkey.SetControls(ButtonPrimary, ButtonSecondary, ButtonClear, CheckBoxGlobal);
         }
 
         private void ComboBoxBeep_SelectedIndexChanged(object sender, EventArgs e) {

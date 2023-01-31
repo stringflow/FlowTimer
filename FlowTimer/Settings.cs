@@ -23,6 +23,8 @@ namespace FlowTimer {
         public Hotkey Sub4 = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Add5 = new Hotkey(Keys.None, Keys.None, false);
         public Hotkey Sub5 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Add6 = new Hotkey(Keys.None, Keys.None, false);
+        public Hotkey Sub6 = new Hotkey(Keys.None, Keys.None, false);
         public KeyMethod KeyMethod = KeyMethod.OnPress;
         public string Beep = "ping1";
         public bool Pinned = false;
