@@ -71,7 +71,6 @@ namespace FlowTimer {
         }
 
         private void AddKeybindSetting(string name, Hotkey hotkey) {
-
             Label Label = new Label {
                 AutoSize = true,
                 Location = new System.Drawing.Point(5, SizeKeybinds + 12),
@@ -117,9 +116,9 @@ namespace FlowTimer {
                 UseVisualStyleBackColor = true
             };
             Controls.Add(CheckBoxGlobal);
-            SizeKeybinds += 26;
 
             hotkey.SetControls(ButtonPrimary, ButtonSecondary, ButtonClear, CheckBoxGlobal);
+            SizeKeybinds += 26;
         }
 
         private void ComboBoxBeep_SelectedIndexChanged(object sender, EventArgs e) {
