@@ -102,6 +102,10 @@ namespace FlowTimer {
                 if(Delayers.Count > 4) Delayers[4].Plus.PerformClick();
             } else if(FlowTimer.Settings.Sub5.IsPressed(key)) {
                 if(Delayers.Count > 4) Delayers[4].Minus.PerformClick();
+            } else if(FlowTimer.Settings.Add6.IsPressed(key)) {
+                if(Delayers.Count > 5) Delayers[5].Plus.PerformClick();
+            } else if(FlowTimer.Settings.Sub6.IsPressed(key)) {
+                if(Delayers.Count > 5) Delayers[5].Minus.PerformClick();
             } else if(FlowTimer.Settings.Undo.IsPressed(key) && FlowTimer.MainForm.ButtonUndoPlay.Enabled) {
                 Undo();
             } else if(FlowTimer.Settings.Play.IsPressed(key) && FlowTimer.MainForm.ButtonPlay.Enabled) {
