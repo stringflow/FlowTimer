@@ -71,7 +71,6 @@ namespace FlowTimer {
         }
 
         private void AddKeybindSetting(string name, Hotkey hotkey) {
-
             Label Label = new Label {
                 AutoSize = true,
                 Location = new System.Drawing.Point(5, SizeKeybinds + 12),

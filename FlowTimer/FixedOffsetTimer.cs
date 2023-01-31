@@ -100,6 +100,7 @@ namespace FlowTimer {
                 control.RemoveKeyControls();
             }
 
+            Timers[0].RemoveButton.Visible = Timers.Count > 1;
             RepositionAddButton();
             SelectTimer(timer);
         }
@@ -111,8 +112,10 @@ namespace FlowTimer {
             for(int i = timerIndex; i < Timers.Count; i++) {
                 Timers[i].Index = Timers[i].Index - 1;
             }
+
+            Timers[0].RemoveButton.Visible = Timers.Count > 1;
             RepositionAddButton();
-            SelectTimer(Timers[0]);
+            if(SelectedTimer == timer) SelectTimer(Timers[0]);
         }
 
         public void ClearAllTimers() {
@@ -308,11 +311,8 @@ namespace FlowTimer {
 
                 RadioButton.SetBounds(X - 21, yPosition + 4, 14, 13);
 
-                //only reposition remove button if not index = 0
-                if(value > 0) {
-                    Rectangle lastbox = TextBoxes.Last().Bounds;
-                    RemoveButton.SetBounds(lastbox.X + lastbox.Width + 5, lastbox.Y, 38, 21);
-                }
+                Rectangle lastbox = TextBoxes.Last().Bounds;
+                RemoveButton.SetBounds(lastbox.X + lastbox.Width + 5, lastbox.Y, 38, 21);
             }
         }
 
@@ -345,14 +345,12 @@ namespace FlowTimer {
             RadioButton.Click += RadioButton_Click;
             Controls.Add(RadioButton);
 
-            if(index > 0) {
-                RemoveButton = new Button();
-                RemoveButton.Text = "-";
-                RemoveButton.Click += RemoveButton_Click;
-                RemoveButton.TabStop = false;
-                RemoveButton.DisableSelect();
-                Controls.Add(RemoveButton);
-            }
+            RemoveButton = new Button();
+            RemoveButton.Text = "-";
+            RemoveButton.Click += RemoveButton_Click;
+            RemoveButton.TabStop = false;
+            RemoveButton.DisableSelect();
+            Controls.Add(RemoveButton);
 
             Index = index;
         }
