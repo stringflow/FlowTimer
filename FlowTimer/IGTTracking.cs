@@ -62,6 +62,7 @@ namespace FlowTimer {
         public override void OnTimerStart() {
             CurrentOffset = double.MaxValue;
             Playing = false;
+            EnableControls(true, false);
             foreach(IGTDelayer delayer in Delayers)
                 delayer.Count.Text = "0";
             Adjusted = 0;
@@ -72,7 +73,7 @@ namespace FlowTimer {
 
         public override void OnTimerStop() {
             Playing = false;
-            EnableControls(true);
+            EnableControls(false, false);
             FlowTimer.MainForm.LabelTimer.Text = 0.0.ToFormattedString();
             FlowTimer.MainForm.LabelTimer.Focus();
             foreach(IGTDelayer delayer in Delayers)
@@ -216,8 +217,10 @@ namespace FlowTimer {
 
         public void OnDataChange() {
             double currentTime = double.Parse(FlowTimer.MainForm.LabelTimer.Text);
-            if(Playing && CurrentOffset < currentTime)
+            if(Playing && CurrentOffset < currentTime) {
                 Playing = false;
+                EnableControls(true, false);
+            }
         }
 
         public void Play() {
@@ -232,16 +235,18 @@ namespace FlowTimer {
             double[] offsets = new double[10];
             for(int i = 0; i < offsets.Length; ++i)
                 offsets[i] = offset + 60.0f / info.FPS * 1000.0f * i;
+            FlowTimer.AudioContext.ClearQueuedAudio();
             FlowTimer.UpdatePCM(offsets, info.Interval, info.NumBeeps, false);
             FlowTimer.AudioContext.QueueAudio(FlowTimer.PCM);
             CurrentOffset = (offsets[9] + now - FlowTimer.TimerStart) / 1000.0f;
             Playing = true;
-            EnableControls(false);
+            EnableControls(true, true);
         }
 
         public void Undo() {
+            if(!Playing) return;
             Playing = false;
-            EnableControls(true);
+            EnableControls(true, false);
             CurrentOffset = double.MaxValue;
             FlowTimer.AudioContext.ClearQueuedAudio();
         }
@@ -255,7 +260,9 @@ namespace FlowTimer {
             if(Playing) Play();
         }
 
-        public void EnableControls(bool enabled) {
+        public void EnableControls(bool play, bool undo) {
+            FlowTimer.MainForm.ButtonPlay.Enabled = play;
+            FlowTimer.MainForm.ButtonUndoPlay.Enabled = undo;
         }
 
         public void RepositionAddButton() {
