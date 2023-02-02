@@ -107,7 +107,9 @@
     <Compile Include="BaseTimer.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FileSystem.cs" />
+    <Compile Include="JsonIGTTracking.cs" />
     <Compile Include="TimerError.cs" />
+    <Compile Include="IGTTracking.cs" />
     <Compile Include="VariableOffsetTimer.cs" />
     <Compile Include="FixedOffsetTimer.cs" />
     <Compile Include="FlowTimer.cs" />

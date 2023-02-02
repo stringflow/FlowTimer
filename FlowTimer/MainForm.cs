@@ -8,7 +8,7 @@ namespace FlowTimer {
         public MainForm() {
             InitializeComponent();
             FlowTimer.SetMainForm(this);
-            FlowTimer.RegisterTabs(TabPageFixedOffset, TabPageVariableOffset);
+            FlowTimer.RegisterTabs(TabPageFixedOffset, TabPageVariableOffset, TabPageIGTTracking);
             FlowTimer.Init();
         }
 
@@ -62,6 +62,30 @@ namespace FlowTimer {
 
         private void ButtonUndo_Click(object sender, EventArgs e) {
             FlowTimer.VariableOffset.Undo();
+        }
+
+        private void ButtonPlay_Click(object sender, EventArgs e) {
+            FlowTimer.IGTTracking.Play();
+        }
+
+        private void ComboBoxFPS3_DataChange(object sender, EventArgs e) {
+            FlowTimer.IGTTracking.OnDataChange();
+        }
+
+        private void ButtonUndoPlay_Click(object sender, EventArgs e) {
+            FlowTimer.IGTTracking.Undo();
+        }
+
+        private void ButtonAdd3_Click(object sender, EventArgs e) {
+            FlowTimer.IGTTracking.AddTimer();
+        }
+
+        private void ButtonLoadTimers3_Click(object sender, EventArgs e) {
+            FlowTimer.IGTTracking.OpenLoadTimersDialog();
+        }
+
+        private void ButtonSaveTimers3_Click(object sender, EventArgs e) {
+            FlowTimer.IGTTracking.OpenSaveTimersDialog();
         }
     }
 }
