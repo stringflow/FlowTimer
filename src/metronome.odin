@@ -11,6 +11,8 @@ AUDIO_CHANNELS :: 2
 AUDIO_PERIOD_IN_FRAMES :: 16
 AUDIO_BYTES_PER_FRAME := ma.get_bytes_per_frame(AUDIO_FORMAT, AUDIO_CHANNELS)
 
+BUFFER_COUNT :: 2
+
 Audio :: struct {
     pcm: []u8,
     frame_count: u32,
@@ -22,7 +24,8 @@ Metronome :: struct {
     queued: ^Audio,
     frame_position: u32,
 
-    buffer: Audio,
+    buffers: [BUFFER_COUNT]Audio,
+    buffer_index: int,
     beep: Audio,
 }
 
@@ -50,8 +53,12 @@ duration_to_audio_frames :: proc "contextless" (duration: time.Duration) -> u32 
     return u32(time.duration_seconds(duration) * f64(AUDIO_SAMPLE_RATE))
 }
 
+delete_audio :: proc(audio: Audio) {
+	delete(audio.pcm)
+}
+
 resize_audio :: proc(audio: ^Audio, frame_count: u32) {
-    delete(audio.pcm)
+    delete_audio(audio^)
     audio.pcm = make([]u8, audio_frames_to_bytes(frame_count))
     audio.frame_count = frame_count
 }
@@ -72,8 +79,8 @@ create_metronome :: proc(metronome: ^Metronome) -> bool {
 }
 
 delete_metronome :: proc(metronome: ^Metronome) -> bool {
-    delete(metronome.buffer.pcm)
-    delete(metronome.beep.pcm)
+	for buffer in metronome.buffers do delete_audio(buffer)
+    delete_audio(metronome.beep)
 
     if ma.device_stop(&metronome.device) != .SUCCESS do return false
     ma.device_uninit(&metronome.device)
@@ -100,17 +107,20 @@ set_beep :: proc(metronome: ^Metronome, filepath: cstring) -> bool {
 }
 
 prepare_metronome :: proc(metronome: ^Metronome, offsets: []time.Duration, interval: time.Duration, beeps: int) {
+	metronome.buffer_index = (metronome.buffer_index + 1) % BUFFER_COUNT
+	target_buffer := &metronome.buffers[metronome.buffer_index]
+
     max_offset := slice.max(offsets)
 
     frame_count := duration_to_audio_frames(max_offset) + metronome.beep.frame_count
-    resize_audio(&metronome.buffer, frame_count)
+    resize_audio(target_buffer, frame_count)
 
     for offset in offsets {
         for i in 0..<beeps {
             offset_duration := offset - time.Duration(i) * interval
             offset_frames := duration_to_audio_frames(offset_duration)
             offset_byte := audio_frames_to_bytes(offset_frames)
-            copy(metronome.buffer.pcm[offset_byte:], metronome.beep.pcm)
+            copy(target_buffer.pcm[offset_byte:], metronome.beep.pcm)
         }
     }
 }
@@ -118,4 +128,8 @@ prepare_metronome :: proc(metronome: ^Metronome, offsets: []time.Duration, inter
 play_audio :: proc(metronome: ^Metronome, audio: ^Audio) {
     metronome.queued = audio
     metronome.frame_position = 0
+}
+
+play_metronome :: proc(metronome: ^Metronome) {
+	play_audio(metronome, &metronome.buffers[metronome.buffer_index])
 }

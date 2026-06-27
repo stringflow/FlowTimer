@@ -27,17 +27,17 @@ main :: proc() {
         rl.ClearBackground(rl.BLACK)
 
         if rl.GuiButton({ 20, 60, 150, 30 }, "Start") {
-        	start_tick = time.tick_now()
-       		play_audio(&metronome, &metronome.buffer)
+            start_tick = time.tick_now()
+            play_metronome(&metronome)
         }
 
         time_remaining := max_offset
         if start_tick._nsec != 0 {
-	        time_remaining = max_offset - time.tick_since(start_tick)
-	        if time_remaining < 0 {
-	        	time_remaining = 0
-	         	start_tick._nsec = 0
-	        }
+            time_remaining = max_offset - time.tick_since(start_tick)
+            if time_remaining < 0 {
+                time_remaining = 0
+                start_tick._nsec = 0
+            }
         }
 
         rl.DrawText(rl.TextFormat("%.0f", time.duration_milliseconds(time_remaining)), 20, 90, 32, rl.GRAY)
